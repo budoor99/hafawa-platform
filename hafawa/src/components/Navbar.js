@@ -36,7 +36,7 @@ function Navbar() {
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/content">
-                  Content
+                  Destinations
                 </Link>
               </li>
               <li className="nav-item">
@@ -49,7 +49,6 @@ function Navbar() {
                   Host
                 </Link>
               </li>
-
               <li className="nav-item ms-3">
                 <button
                   className="btn rounded-0 px-4"
