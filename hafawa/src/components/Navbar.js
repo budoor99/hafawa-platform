@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginModal from "./LoginModal";
+import SignupModal from "./SingupModal";
 
 function Navbar() {
-  // Tracks if the login modal is open or not
+  // Tracks if the login and signup modal is open or not
   const [showModal, setShowModal] = useState(false);
+  const [showSignupModal, setShowSignupModal] = useState(false);
 
   return (
     <>
@@ -64,7 +66,18 @@ function Navbar() {
       </nav>
 
       {/*====================== Login modal popup ======================*/}
-      <LoginModal show={showModal} onClose={() => setShowModal(false)} />
+      <LoginModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onSwitchToSignup={() => {
+          setShowModal(false);
+          setShowSignupModal(true);
+        }}
+      />
+      <SignupModal
+        show={showSignupModal}
+        onClose={() => setShowSignupModal(false)}
+      />
     </>
   );
 }
