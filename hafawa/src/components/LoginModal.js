@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "../styles/modal.css";
 
-function LoginModal({ show, onClose, onSwitchToSignup }) {
+function LoginModal({ show, onClose, onSwitchToSignup, onLoginSuccess }) {
   useEffect(() => {
     document.body.style.overflow = show ? "hidden" : "auto";
   }, [show]);
@@ -77,6 +77,7 @@ function LoginModal({ show, onClose, onSwitchToSignup }) {
                   backgroundColor: "#9b59b6",
                   borderRadius: "6px",
                 }}
+                onClick={onLoginSuccess}
               >
                 LOGIN
               </button>
@@ -88,7 +89,7 @@ function LoginModal({ show, onClose, onSwitchToSignup }) {
                 Don’t have an account?{" "}
                 <button
                   type="button"
-                  onClick={onSwitchToSignup} // <-- this calls a function passed from Navbar
+                  onClick={onSwitchToSignup}
                   className="btn btn-link p-0 m-0 align-baseline fw-bold"
                   style={{ color: "#9b59b6", textDecoration: "none" }}
                 >
