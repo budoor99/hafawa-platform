@@ -34,7 +34,7 @@ function Footer() {
             <ul className="list-unstyled">
               <li>
                 <Link
-                  to="/destinations"
+                  to="/content"
                   className="text-muted text-decoration-none"
                 >
                   Destinations
