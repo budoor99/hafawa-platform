@@ -1,0 +1,14 @@
+@keyframes fadeInModal {
+  0% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.custom-fade-in {
+  animation: fadeInModal 0.35s ease-out;
+}
