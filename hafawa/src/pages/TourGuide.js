@@ -57,7 +57,7 @@ export default function TourGuides() {
 
   return (
     <>
-      {/* Header Section */}
+      
       <div style={{ backgroundColor: "#E6D9F6", padding: "60px 0" }}>
         <Container className="text-center text-dark">
           <h1 className="fw-bold mb-3">Connect with Expert Local Guides</h1>
@@ -82,10 +82,10 @@ export default function TourGuides() {
         </Container>
       </div>
 
-      {/* Filter + Cards */}
+     
       <Container className="py-5">
         <Row>
-          {/* Filter by City */}
+          
           <Col md={3}>
             <h5 className="fw-bold mb-3">Filter by City</h5>
             <Form.Select
@@ -101,7 +101,7 @@ export default function TourGuides() {
             </Form.Select>
           </Col>
 
-          {/* Guide Cards + Apply Section */}
+          
           <Col md={9}>
             <h5 className="fw-bold mb-4">{filtered.length} Guides Available</h5>
             <Row className="g-4">
@@ -139,11 +139,12 @@ export default function TourGuides() {
               ))}
             </Row>
 
-            {/* APPLY TO JOIN AS A HOST SECTION */}
+            
             <Container className="text-center mt-5">
               <h4 style={{ color: "#3B9C3B", fontWeight: "bold", marginBottom: "24px" }}>
-                YOU ARE NEXT! APPLY TO JOIN AS A HOST!
+                YOU ARE NEXT! APPLY TO JOIN AS A TOUR GUIDE!
               </h4>
+              <Link to="/apply">
               <Button
                 variant="light"
                 style={{
@@ -156,6 +157,7 @@ export default function TourGuides() {
               >
                 Apply
               </Button>
+              </Link>
             </Container>
           </Col>
         </Row>
