@@ -80,7 +80,7 @@ function Footer() {
             <ul className="list-unstyled">
               <li>
                 <Link
-                  to="/become-guide"
+                  to="/apply"
                   className="text-muted text-decoration-none"
                 >
                   Become a Tour Guide

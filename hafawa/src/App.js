@@ -7,6 +7,8 @@ import Destinations from "./pages/Destinations";
 import DestinationDetails from "./pages/DestinationDetails.js"
 import TourGuide from "./pages/TourGuide.js"
 import TourGuideProfile from "./pages/TourGuideProfile.js"
+import RegisterTourGuide from "./pages/Apply";
+import RegisterDetails from "./pages/ApplyDetails.js";
 function App() {
   return (
     <Router>
@@ -19,6 +21,8 @@ function App() {
             <Route path="/destination/:id" element={<DestinationDetails />} />
             <Route path="/tour-guides" element={<TourGuide />} />
             <Route path="/tour-guides/:id" element={<TourGuideProfile />} />
+            <Route path="/apply" element={<RegisterTourGuide />} />
+            <Route path="/apply/details" element={<RegisterDetails />} />
 
 
 
