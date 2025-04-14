@@ -14,16 +14,16 @@ function Footer() {
               local guides for an authentic experience.
             </p>
             <div className="d-flex gap-3 mt-3">
-              <a href="#" className="text-muted">
+              <a href="https://facebook.com" className="text-muted">
                 <Facebook size={18} />
               </a>
-              <a href="#" className="text-muted">
+              <a href="https://twitter.com" className="text-muted">
                 <Twitter size={18} />
               </a>
-              <a href="#" className="text-muted">
+              <a href="https://instagram.com" className="text-muted">
                 <Instagram size={18} />
               </a>
-              <a href="#" className="text-muted">
+              <a href="https://youtube.com" className="text-muted">
                 <Youtube size={18} />
               </a>
             </div>
@@ -33,10 +33,7 @@ function Footer() {
             <h6 className="fw-bold text-dark mb-3">Explore</h6>
             <ul className="list-unstyled">
               <li>
-                <Link
-                  to="/content"
-                  className="text-muted text-decoration-none"
-                >
+                <Link to="/content" className="text-muted text-decoration-none">
                   Destinations
                 </Link>
               </li>

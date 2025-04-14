@@ -4,11 +4,16 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Destinations from "./pages/Destinations";
-import DestinationDetails from "./pages/DestinationDetails.js"
+
+import DestinationDetails from "./pages/DestinationDetails.js";
+import Profile from "./pages/Profile.js";
 import TourGuide from "./pages/TourGuide.js"
 import TourGuideProfile from "./pages/TourGuideProfile.js"
 import RegisterTourGuide from "./pages/Apply";
 import RegisterDetails from "./pages/ApplyDetails.js";
+
+
+
 function App() {
   return (
     <Router>
@@ -19,12 +24,11 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/content" element={<Destinations />} />
             <Route path="/destination/:id" element={<DestinationDetails />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/tour-guides" element={<TourGuide />} />
             <Route path="/tour-guides/:id" element={<TourGuideProfile />} />
             <Route path="/apply" element={<RegisterTourGuide />} />
             <Route path="/apply/details" element={<RegisterDetails />} />
-
-
 
           </Routes>
         </main>
