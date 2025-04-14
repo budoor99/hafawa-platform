@@ -1,13 +1,14 @@
 import React from "react";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import "../styles/card.css";
 
 export default function DestinationCards({ destinations }) {
   return (
     <Row className="g-3 px-3 pt-4 pb-5" style={{ maxWidth: "1200px" }}>
       {destinations.map((dest) => (
         <Col key={dest.id} xs={12} sm={6} md={4} lg={3}>
-          <Card className="h-100 shadow-sm d-flex flex-column">
+          <Card className="h-100 shadow-sm d-flex flex-column card-hover-lift">
             <Card.Img
               variant="top"
               src={dest.image}
