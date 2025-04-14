@@ -1,0 +1,7 @@
+.card-hover-lift {
+  transition: transform 0.2s ease;
+}
+
+.card-hover-lift:hover {
+  transform: translateY(-5px);
+}

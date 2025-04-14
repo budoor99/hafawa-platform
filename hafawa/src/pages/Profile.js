@@ -14,7 +14,7 @@ import {
   FaMapMarkerAlt,
   FaUserEdit,
 } from "react-icons/fa";
-import "./Profile.css";
+import "../styles/Profile.css";
 import userImg from "../assets/user.jpeg";
 import DestinationCards from "../components/DestinationCards";
 import hegraImg from "../assets/hegra.jpg";
