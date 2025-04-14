@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginModal from "./LoginModal";
@@ -64,7 +64,11 @@ function Navbar() {
               <li className="nav-item ms-3">
                 {user ? (
                   <>
-                    <span>👤 {user.name}</span>
+                    <Link to="/profile" className="text-decoration-none me-2">
+                      <span style={{ color: "#6A1B9A", fontWeight: "500" }}>
+                        👤 {user.name}
+                      </span>
+                    </Link>
                     <button
                       className="btn rounded-0 px-4"
                       style={{ color: "#9b59b6", border: "1px solid #9b59b6" }}
