@@ -52,7 +52,7 @@ function Navbar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/tour-guide">
+                <Link className="nav-link" to="/tour-guides">
                   Tour Guide
                 </Link>
               </li>
