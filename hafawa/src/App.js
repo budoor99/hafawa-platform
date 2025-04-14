@@ -12,6 +12,7 @@ import TourGuideProfile from "./pages/TourGuideProfile.js"
 import RegisterTourGuide from "./pages/Apply";
 import RegisterDetails from "./pages/ApplyDetails.js";
 
+import TourGuideDashboard from "./pages/TourGuideDashboard";
 
 
 function App() {
@@ -29,6 +30,8 @@ function App() {
             <Route path="/tour-guides/:id" element={<TourGuideProfile />} />
             <Route path="/apply" element={<RegisterTourGuide />} />
             <Route path="/apply/details" element={<RegisterDetails />} />
+
+            <Route path="/dashboard" element={<TourGuideDashboard />} />
 
           </Routes>
         </main>
