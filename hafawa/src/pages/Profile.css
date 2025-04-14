@@ -1,0 +1,32 @@
+.user-profile-wrapper {
+  padding: 80px 0;
+  background: #f8f5fc;
+  min-height: 100vh;
+}
+
+.profile-card {
+  background: #fff;
+  border: 1px solid #eee;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #caa4f7;
+}
+
+.bookmark-card {
+  border: 1px solid #ddd;
+  transition: transform 0.2s ease;
+}
+.bookmark-card:hover {
+  transform: translateY(-5px);
+}
+
+.bookmark-img {
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 1px solid #ddd;
+}
