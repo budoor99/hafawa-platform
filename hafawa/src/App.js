@@ -5,7 +5,8 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Destinations from "./pages/Destinations";
 import DestinationDetails from "./pages/DestinationDetails.js"
-
+import TourGuide from "./pages/TourGuide.js"
+import TourGuideProfile from "./pages/TourGuideProfile.js"
 function App() {
   return (
     <Router>
@@ -16,6 +17,10 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/content" element={<Destinations />} />
             <Route path="/destination/:id" element={<DestinationDetails />} />
+            <Route path="/tour-guides" element={<TourGuide />} />
+            <Route path="/tour-guides/:id" element={<TourGuideProfile />} />
+
+
 
           </Routes>
         </main>
