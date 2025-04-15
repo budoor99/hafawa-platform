@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; //this is the profile interface for tour guides to view their status
 import {
   Container,
   Row,
