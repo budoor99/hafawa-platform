@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"; //my second comment
 import heroImg from "../assets/hero.jpg";
 
 function Home() {
