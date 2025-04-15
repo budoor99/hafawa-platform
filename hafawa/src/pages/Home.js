@@ -1,5 +1,5 @@
 import React from "react";
-import heroImg from "../assets/hero.jpg";
+import heroImg from "../assets/hero.jpg";// importing the pic to add it in the website
 
 function Home() {
   return (
