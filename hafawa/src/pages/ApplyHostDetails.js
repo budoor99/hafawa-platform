@@ -92,7 +92,7 @@ export default function HostRegisterDetails() {
   </Modal.Header>
   <Modal.Body className="text-center">
     <p className="mb-3" style={{ fontSize: "1.1rem", color: "#4A148C" }}>
-      Thank you for applying to become a tour guide with us.
+      Thank you for applying to become a host with us.
     </p>
     <p className="text-muted mb-0">
       Your information has been received successfully. Our team will review your application and get in touch with you soon.
