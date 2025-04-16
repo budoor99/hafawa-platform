@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; 
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; //importing 
 import bgImage from "../assets/hero.jpg";
 
 export default function RegisterDetails() {
