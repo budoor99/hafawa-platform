@@ -13,6 +13,7 @@ import RegisterTourGuide from "./pages/Apply";
 import RegisterDetails from "./pages/ApplyDetails.js";
 import DetailedHostProfile from "./pages/DetailedHostProfile.js";
 import TourGuideDashboard from "./pages/TourGuideDashboard.js";
+import AboutUs from "./pages/AboutUs.js";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/apply/details" element={<RegisterDetails />} />
             <Route path="/dashboard" element={<TourGuideDashboard />} />
             <Route path="/host/:hostId" element={<DetailedHostProfile/>} />
+            <Route path="/about" element={<AboutUs/>} />
 
             
 
