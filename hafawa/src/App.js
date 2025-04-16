@@ -7,12 +7,11 @@ import Destinations from "./pages/Destinations";
 
 import DestinationDetails from "./pages/DestinationDetails.js";
 import Profile from "./pages/Profile.js";
-import TourGuide from "./pages/TourGuide.js"
-import TourGuideProfile from "./pages/TourGuideProfile.js"
+import TourGuide from "./pages/TourGuide.js";
+import TourGuideProfile from "./pages/TourGuideProfile.js";
 import RegisterTourGuide from "./pages/Apply";
 import RegisterDetails from "./pages/ApplyDetails.js";
-
-
+import AdminDashboard from "./pages/AdminDashboard.js";
 
 function App() {
   return (
@@ -29,7 +28,7 @@ function App() {
             <Route path="/tour-guides/:id" element={<TourGuideProfile />} />
             <Route path="/apply" element={<RegisterTourGuide />} />
             <Route path="/apply/details" element={<RegisterDetails />} />
-
+            <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
         </main>
         <Footer />
