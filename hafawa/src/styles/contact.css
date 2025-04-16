@@ -1,0 +1,127 @@
+.contact-page {
+    font-family: 'Arial', sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #333;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .header h1 {
+    font-size: 2.5rem;
+    color: #1a3e6f;
+    margin-bottom: 10px;
+  }
+  
+  .header p {
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  .content-container {
+    display: flex;
+    gap: 40px;
+  }
+  
+  .left-sidebar {
+    width: 200px;
+    border-right: 1px solid #e0e0e0;
+    padding-right: 20px;
+  }
+  
+  .left-sidebar nav ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .left-sidebar nav ul li {
+    margin-bottom: 15px;
+  }
+  
+  .left-sidebar nav ul li a {
+    text-decoration: none;
+    color: #1a3e6f;
+    font-weight: 500;
+  }
+  
+  .left-sidebar nav ul li a:hover {
+    color: #e67e22;
+  }
+  
+  .main-content {
+    flex: 1;
+  }
+  
+  .main-content h2 {
+    font-size: 2rem;
+    color: #9B59B7;
+    margin-bottom: 10px;
+  }
+  
+  .subtitle {
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  .contact-form {
+    max-width: 600px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #444;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .form-group textarea {
+    height: 150px;
+    resize: vertical;
+  }
+  
+  .submit-button {
+    background-color: #9B59B7;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .submit-button:hover {
+    background-color: #9B59B7;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .content-container {
+      flex-direction: column;
+    }
+    
+    .left-sidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid #e0e0e0;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+  }
