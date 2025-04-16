@@ -11,8 +11,6 @@ import TourGuide from "./pages/TourGuide.js";
 import TourGuideProfile from "./pages/TourGuideProfile.js";
 import RegisterTourGuide from "./pages/Apply";
 import RegisterDetails from "./pages/ApplyDetails.js";
-import Hosts from "./pages/Hosts.js"
-import RegisterHost from "./pages/ApplyHost.js"
 import AdminDashboard from "./pages/AdminDashboard.js";
 import TourGuideDashboard from "./pages/TourGuideDashboard";
 
@@ -31,8 +29,6 @@ function App() {
             <Route path="/tour-guides/:id" element={<TourGuideProfile />} />
             <Route path="/apply" element={<RegisterTourGuide />} />
             <Route path="/apply/details" element={<RegisterDetails />} />
-            <Route path="/hosts" element={<Hosts />} />
-            <Route path="/applyhost" element={<RegisterHost />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/dashboard" element={<TourGuideDashboard />} />
           </Routes>
