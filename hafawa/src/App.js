@@ -12,6 +12,7 @@ import TourGuideProfile from "./pages/TourGuideProfile.js";
 import RegisterTourGuide from "./pages/Apply";
 import RegisterDetails from "./pages/ApplyDetails.js";
 import AdminDashboard from "./pages/AdminDashboard.js";
+import TourGuideDashboard from "./pages/TourGuideDashboard";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/apply" element={<RegisterTourGuide />} />
             <Route path="/apply/details" element={<RegisterDetails />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/dashboard" element={<TourGuideDashboard />} />
           </Routes>
         </main>
         <Footer />
