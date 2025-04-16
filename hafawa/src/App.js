@@ -12,8 +12,11 @@ import TourGuideProfile from "./pages/TourGuideProfile.js"
 import RegisterTourGuide from "./pages/Apply";
 import RegisterDetails from "./pages/ApplyDetails.js";
 import DetailedHostProfile from "./pages/DetailedHostProfile.js";
-import TourGuideDashboard from "./pages/TourGuideDashboard";
+import TourGuideDashboard from "./pages/TourGuideDashboard.js";
+import AboutUs from "./pages/AboutUs.js";
 import Contact from "./pages/ContactUs.js";
+
+
 
 function App() {
   return (
@@ -33,6 +36,7 @@ function App() {
             <Route path="/dashboard" element={<TourGuideDashboard />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/host/:hostId" element={<DetailedHostProfile/>} />
+            <Route path="/about" element={<AboutUs/>} />
 
 
           </Routes>
