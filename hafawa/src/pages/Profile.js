@@ -25,7 +25,7 @@ const defaultUser = {
   email: "ahmed@example.com",
   phone: "+966 500 123 456",
   location: "Riyadh, Saudi Arabia",
-  //   avatar: "../assets/user.jpeg",
+  
   bookmarks: [
     {
       id: "hegra",

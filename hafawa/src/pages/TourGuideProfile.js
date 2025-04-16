@@ -7,10 +7,10 @@ export default function TourGuideProfile() {
     <div style={{ backgroundColor: "#F7F5FB", minHeight: "100vh", padding: "60px 0" }}>
       <Container className="d-flex justify-content-center">
         <div style={{ width: "100%", maxWidth: "1000px" }}>
-          {/* Top Profile Card */}
+          
           <Card className="shadow-sm border-0 p-4 mb-4" style={{ borderRadius: "16px" }}>
             <Row className="align-items-center">
-              {/* Left: Profile */}
+              
               <Col md={6} className="d-flex align-items-center gap-4">
                 <img
                   src={maleImg}
@@ -29,7 +29,7 @@ export default function TourGuideProfile() {
                 </div>
               </Col>
 
-              {/* Right: Languages + Contact */}
+              
               <Col md={6}>
                 <div>
                   <p className="fw-semibold mb-1">Languages</p>
@@ -43,9 +43,9 @@ export default function TourGuideProfile() {
             </Row>
           </Card>
 
-          {/* About Me and Calendar on same row */}
+          
           <Row className="g-4">
-            {/* About Me */}
+            
             <Col md={8}>
               <Card className="shadow-sm border-0 p-4" style={{ borderRadius: "16px", height: "100%" }}>
                 <h5 className="fw-bold mb-3">About Me</h5>
@@ -60,7 +60,7 @@ export default function TourGuideProfile() {
               </Card>
             </Col>
 
-            {/* Calendar */}
+            
             <Col md={4}>
               <Card className="shadow-sm border-0 p-4" style={{ borderRadius: "16px", height: "100%" }}>
                 <h5 className="fw-bold mb-3">Availability</h5>
@@ -79,6 +79,9 @@ export default function TourGuideProfile() {
               </Card>
             </Col>
           </Row>
+
+
+          
 
           
         </div>
