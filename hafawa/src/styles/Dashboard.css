@@ -1,0 +1,68 @@
+/* Custom Tabs (pill-like design) */
+.custom-tabs {
+  background-color: #f5f5f7;
+  border-radius: 12px;
+  padding: 8px;
+  gap: 8px;
+  display: flex;
+  justify-content: flex-start;
+  border-bottom: none;
+}
+
+/* Each Tab */
+.custom-tabs .nav-link {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-weight: 500;
+  color: #6b7280; /* Gray */
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Hover effect */
+.custom-tabs .nav-link:hover {
+  background-color: #e5e7eb;
+  color: #000;
+}
+
+/* Active tab */
+.custom-tabs .nav-link.active {
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Table header (make it soft & modern like your screenshot) */
+.table thead th {
+  background-color: #f9fafb;
+  color: #6b7280;
+  font-weight: 500;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Optional: Round top corners of the table */
+.table {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.custom-table {
+  border-collapse: separate !important;
+  border-spacing: 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.btn-purple {
+  background-color: #7c3aed;
+  border-color: #7c3aed;
+  color: #fff;
+}
+.btn-purple:hover {
+  background-color: #6a28d9;
+  border-color: #6a28d9;
+}
