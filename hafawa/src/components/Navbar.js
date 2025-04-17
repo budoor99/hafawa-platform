@@ -57,7 +57,7 @@ function Navbar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/host">
+                <Link className="nav-link" to="/hosts">
                   Host
                 </Link>
               </li>
