@@ -14,6 +14,8 @@ import RegisterDetails from "./pages/ApplyDetails.js";
 import Hosts from "./pages/Hosts.js"
 import RegisterHost from "./pages/ApplyHost.js"
 import AdminDashboard from "./pages/AdminDashboard.js";
+import HostRegisterDetails from "./pages/ApplyHostDetails.js"
+
 import TourGuideDashboard from "./pages/TourGuideDashboard";
 
 function App() {
@@ -34,6 +36,8 @@ function App() {
             <Route path="/hosts" element={<Hosts />} />
             <Route path="/applyhost" element={<RegisterHost />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/applyhost/details" element={<HostRegisterDetails />} />
+
             <Route path="/dashboard" element={<TourGuideDashboard />} />
           </Routes>
         </main>
