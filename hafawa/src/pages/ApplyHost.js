@@ -92,7 +92,7 @@ export default function RegisterHost() {
           <Button variant="outline-dark" style={{ minWidth: "120px" }} onClick={() => navigate(-1)} 
           >Cancel 
           </Button>
-            <Link to="/apply/details">
+            <Link to="/applyhost/details">
             <Button
               style={{
                 backgroundColor: "#E6D9F6",
