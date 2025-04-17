@@ -133,7 +133,7 @@ export default function Hosts() {
               <h4 style={{ color: "#3B9C3B", fontWeight: "bold", marginBottom: "24px" }}>
                 WANT TO HOST GUESTS IN YOUR CITY?
               </h4>
-              <Link to="/apply">
+              <Link to="/applyhost">
                 <Button
                   variant="light"
                   style={{
