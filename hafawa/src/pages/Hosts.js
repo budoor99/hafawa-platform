@@ -45,7 +45,9 @@ export default function Hosts() {
 
   const filtered = hostsData.filter((host) => {
     const matchesCity = selectedCity ? host.city === selectedCity : true;
-    const matchesSearch = host.name.toLowerCase().includes(search.toLowerCase());
+    const matchesSearch = host.name
+      .toLowerCase()
+      .includes(search.toLowerCase());
     return matchesCity && matchesSearch;
   });
 
@@ -55,8 +57,8 @@ export default function Hosts() {
         <Container className="text-center text-dark">
           <h1 className="fw-bold mb-3">Meet Our Local Hosts</h1>
           <p className="mb-4">
-            Experience Saudi hospitality with our warm and welcoming local hosts who will
-            ensure your stay is unforgettable.
+            Experience Saudi hospitality with our warm and welcoming local hosts
+            who will ensure your stay is unforgettable.
           </p>
           <Form className="d-flex justify-content-center">
             <Form.Control
@@ -104,13 +106,22 @@ export default function Hosts() {
                           src={host.image}
                           alt={host.name}
                           className="rounded-circle mb-3"
-                          style={{ width: "120px", height: "120px", objectFit: "cover" }}
+                          style={{
+                            width: "120px",
+                            height: "120px",
+                            objectFit: "cover",
+                          }}
                         />
                       </div>
                       <Card.Title className="mb-1">{host.name}</Card.Title>
-                      <Card.Subtitle className="text-muted mb-3">{host.city}</Card.Subtitle>
+                      <Card.Subtitle className="text-muted mb-3">
+                        {host.city}
+                      </Card.Subtitle>
                     </div>
-                    <Link to={`/hosts/${host.id}`} style={{ textDecoration: "none" }}>
+                    <Link
+                      to={`/hosts/${host.id}`}
+                      style={{ textDecoration: "none" }}
+                    >
                       <Button
                         size="sm"
                         style={{
@@ -130,10 +141,16 @@ export default function Hosts() {
             </Row>
 
             <Container className="text-center mt-5">
-              <h4 style={{ color: "#3B9C3B", fontWeight: "bold", marginBottom: "24px" }}>
+              <h4
+                style={{
+                  color: "#3B9C3B",
+                  fontWeight: "bold",
+                  marginBottom: "24px",
+                }}
+              >
                 WANT TO HOST GUESTS IN YOUR CITY?
               </h4>
-              <Link to="/apply">
+              <Link to="/applyhost">
                 <Button
                   variant="light"
                   style={{
@@ -154,4 +171,3 @@ export default function Hosts() {
     </>
   );
 }
-
