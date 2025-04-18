@@ -68,7 +68,9 @@ hafawa-platform/
 
 ## 📸 Screenshots
 
-To be ADDED
+Here is a Link showing the system 
+https://drive.google.com/drive/folders/1uQuHbkOmigS7_Xw7Ao9p34ir2TdAFk8C
+
 
 ---
 
