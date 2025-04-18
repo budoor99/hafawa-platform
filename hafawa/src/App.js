@@ -14,12 +14,10 @@ import DetailedHostProfile from "./pages/DetailedHostProfile.js";
 import TourGuideDashboard from "./pages/TourGuideDashboard.js";
 import AboutUs from "./pages/AboutUs.js";
 import Contact from "./pages/ContactUs.js";
-import Hosts from "./pages/Hosts.js"
-import RegisterHost from "./pages/ApplyHost.js"
+import Hosts from "./pages/Hosts.js";
+import RegisterHost from "./pages/ApplyHost.js";
 import AdminDashboard from "./pages/AdminDashboard.js";
-import HostRegisterDetails from "./pages/ApplyHostDetails.js"
-
-
+import HostRegisterDetails from "./pages/ApplyHostDetails.js";
 
 function App() {
   return (
@@ -38,12 +36,15 @@ function App() {
             <Route path="/apply/details" element={<RegisterDetails />} />
             <Route path="/dashboard" element={<TourGuideDashboard />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/host/:hostId" element={<DetailedHostProfile/>} />
-            <Route path="/about" element={<AboutUs/>} />
+            <Route path="/hosts/:hostId" element={<DetailedHostProfile />} />
+            <Route path="/about" element={<AboutUs />} />
             <Route path="/hosts" element={<Hosts />} />
             <Route path="/applyhost" element={<RegisterHost />} />
             <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/applyhost/details" element={<HostRegisterDetails />} />
+            <Route
+              path="/applyhost/details"
+              element={<HostRegisterDetails />}
+            />
           </Routes>
         </main>
         <Footer />
