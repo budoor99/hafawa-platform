@@ -46,10 +46,7 @@ function Footer() {
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/local-hosts"
-                  className="text-muted text-decoration-none"
-                >
+                <Link to="/hosts" className="text-muted text-decoration-none">
                   Local Hosts
                 </Link>
               </li>
@@ -76,16 +73,13 @@ function Footer() {
             <h6 className="fw-bold text-dark mb-3">Join Us</h6>
             <ul className="list-unstyled">
               <li>
-                <Link
-                  to="/apply"
-                  className="text-muted text-decoration-none"
-                >
+                <Link to="/apply" className="text-muted text-decoration-none">
                   Become a Tour Guide
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/become-host"
+                  to="/applyhost"
                   className="text-muted text-decoration-none"
                 >
                   Become a Host
