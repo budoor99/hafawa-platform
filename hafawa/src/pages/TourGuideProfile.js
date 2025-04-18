@@ -2,7 +2,27 @@ import React from "react";
 import { Container, Card, Row, Col, Button } from "react-bootstrap";
 import maleImg from "../assets/man.jpg";
 
+
+import hegraImg from "../assets/hegra.jpg";
+import madainImg from "../assets/madain.jpg";
+
 export default function TourGuideProfile() {
+
+  const activities = [
+    {
+      id: 1,
+      title: "Hegra",
+      description: "Saudi Arabia’s first UNESCO site with ancient Nabataean tombs.",
+      image: hegraImg,
+    },
+    {
+      id: 2,
+      title: "Madain Saleh",
+      description: "Ancient stone-carved city in Al-Ula.",
+      image: madainImg,
+    },
+  ];
+
   return (
     <div style={{ backgroundColor: "#F7F5FB", minHeight: "100vh", padding: "60px 0" }}>
       <Container className="d-flex justify-content-center">
@@ -79,6 +99,33 @@ export default function TourGuideProfile() {
               </Card>
             </Col>
           </Row>
+
+
+          <Card className="shadow-sm border-0 p-4 mt-2" style={{ borderRadius: "16px" }}>
+            <h5 className="fw-bold mb-4">Activities</h5>
+            <Row className="g-4">
+              {activities.map((activity) => (
+                <Col md={6} key={activity.id}>
+                  <Card className="h-100 border-0 shadow-sm">
+                    <Card.Img
+                      variant="top"
+                      src={activity.image}
+                      style={{
+                        height: "160px",
+                        objectFit: "cover",
+                        borderTopLeftRadius: "12px",
+                        borderTopRightRadius: "12px",
+                      }}
+                    />
+                    <Card.Body>
+                      <Card.Title>{activity.title}</Card.Title>
+                      <Card.Text className="text-muted">{activity.description}</Card.Text>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          </Card>
 
 
           
