@@ -1,12 +1,62 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "../styles/modal.css";
 
-function SignupModal({ show, onClose, onSwitchToSignup }) {
+function SignupModal({ show, onClose, onSignupSuccess }) {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  // feedback message
+  const [message, setMessage] = useState("");
+
+  // reset form when modal opens
   useEffect(() => {
     document.body.style.overflow = show ? "hidden" : "auto";
+
+    if (show) {
+      setMessage("");
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        password: "",
+        confirmPassword: "",
+      });
+    }
   }, [show]);
 
   if (!show) return null;
+
+  // handle form submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (formData.password !== formData.confirmPassword) {
+      setMessage("Passwords do not match.");
+      return;
+    }
+
+    try {
+      const res = await axios.post("/api/auth/signup", {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
+      });
+
+      setMessage(res.data.message || "Signup successful!");
+      onSignupSuccess();
+      onClose();
+    } catch (err) {
+      const msg = err.response?.data?.message || "Signup failed.";
+      setMessage(msg);
+    }
+  };
 
   return (
     <div
@@ -28,7 +78,6 @@ function SignupModal({ show, onClose, onSwitchToSignup }) {
             boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
           }}
         >
-          {/* Close button */}
           <button
             type="button"
             className="btn-close position-absolute end-0 m-3"
@@ -36,11 +85,9 @@ function SignupModal({ show, onClose, onSwitchToSignup }) {
             onClick={onClose}
           ></button>
 
-          {/* Modal title */}
           <h5 className="mb-4 fw-bold text-capitalize">Sign up</h5>
 
-          {/* Sign Up form */}
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label className="form-label fw-semibold">
                 Name <span className="text-danger">*</span>
@@ -48,7 +95,12 @@ function SignupModal({ show, onClose, onSwitchToSignup }) {
               <input
                 type="text"
                 className="form-control"
+                name="name"
                 placeholder="Enter your name..."
+                onChange={(e) =>
+                  setFormData({ ...formData, [e.target.name]: e.target.value })
+                }
+                required
               />
             </div>
 
@@ -59,7 +111,12 @@ function SignupModal({ show, onClose, onSwitchToSignup }) {
               <input
                 type="email"
                 className="form-control"
+                name="email"
                 placeholder="Enter your email address..."
+                onChange={(e) =>
+                  setFormData({ ...formData, [e.target.name]: e.target.value })
+                }
+                required
               />
             </div>
 
@@ -70,7 +127,12 @@ function SignupModal({ show, onClose, onSwitchToSignup }) {
               <input
                 type="tel"
                 className="form-control"
+                name="phone"
                 placeholder="Enter your phone number..."
+                onChange={(e) =>
+                  setFormData({ ...formData, [e.target.name]: e.target.value })
+                }
+                required
               />
             </div>
 
@@ -81,7 +143,12 @@ function SignupModal({ show, onClose, onSwitchToSignup }) {
               <input
                 type="password"
                 className="form-control"
+                name="password"
                 placeholder="••••••••••••••"
+                onChange={(e) =>
+                  setFormData({ ...formData, [e.target.name]: e.target.value })
+                }
+                required
               />
             </div>
 
@@ -92,14 +159,17 @@ function SignupModal({ show, onClose, onSwitchToSignup }) {
               <input
                 type="password"
                 className="form-control"
+                name="confirmPassword"
                 placeholder="••••••••••••••"
+                onChange={(e) =>
+                  setFormData({ ...formData, [e.target.name]: e.target.value })
+                }
+                required
               />
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
-              onClick={onSwitchToSignup}
               className="btn w-100 text-white"
               style={{
                 backgroundColor: "#9b59b6",
@@ -108,6 +178,14 @@ function SignupModal({ show, onClose, onSwitchToSignup }) {
             >
               SIGN UP
             </button>
+            <p
+              className="mt-3 text-center fw-semibold"
+              style={{
+                color: message.includes("successful") ? "green" : "red",
+              }}
+            >
+              {message}
+            </p>
           </form>
         </div>
       </div>

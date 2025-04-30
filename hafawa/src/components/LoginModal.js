@@ -1,12 +1,43 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import axios from "axios";
 import "../styles/modal.css";
+import { AuthContext } from "../context/AuthContext";
 
-function LoginModal({ show, onClose, onSwitchToSignup, onLoginSuccess }) {
+function LoginModal({ show, onClose, onSwitchToSignup }) {
+  const { login } = useContext(AuthContext);
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [message, setMessage] = useState("");
+
   useEffect(() => {
     document.body.style.overflow = show ? "hidden" : "auto";
+    if (show) {
+      setMessage(""); // clear old messages
+      setFormData({ email: "", password: "" }); // clear form inputs
+    }
   }, [show]);
 
   if (!show) return null;
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await axios.post("/api/auth/login", {
+        email: formData.email,
+        password: formData.password,
+      });
+
+      login(res.data.token, res.data.user); // update global auth context
+      setMessage("Login successful!");
+
+      setTimeout(() => {
+        onClose(); // close after 1 second delay
+      }, 1000);
+    } catch (err) {
+      const msg = err.response?.data?.message || "Login failed.";
+      setMessage(msg);
+    }
+  };
 
   return (
     <>
@@ -37,15 +68,23 @@ function LoginModal({ show, onClose, onSwitchToSignup, onLoginSuccess }) {
             ></button>
 
             <h5 className="mb-4 fw-bold text-capitalize">Login</h5>
-            <form>
+            <form onSubmit={handleLogin}>
               <div className="mb-3">
                 <label className="form-label fw-semibold">
                   Email address <span className="text-danger">*</span>
                 </label>
                 <input
                   type="email"
+                  name="email"
                   className="form-control"
                   placeholder="Enter your email address..."
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
                 />
               </div>
 
@@ -55,8 +94,16 @@ function LoginModal({ show, onClose, onSwitchToSignup, onLoginSuccess }) {
                 </label>
                 <input
                   type="password"
+                  name="password"
                   className="form-control"
                   placeholder="••••••••••••••"
+                  value={formData.password}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
                 />
               </div>
 
@@ -77,10 +124,20 @@ function LoginModal({ show, onClose, onSwitchToSignup, onLoginSuccess }) {
                   backgroundColor: "#9b59b6",
                   borderRadius: "6px",
                 }}
-                onClick={onLoginSuccess}
               >
                 LOGIN
               </button>
+
+              {message && (
+                <p
+                  className="mt-3 text-center fw-semibold"
+                  style={{
+                    color: message.includes("successful") ? "green" : "red",
+                  }}
+                >
+                  {message}
+                </p>
+              )}
 
               <p
                 className="text-center mt-3 mb-0"
