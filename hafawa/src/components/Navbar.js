@@ -3,22 +3,15 @@ import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginModal from "./LoginModal";
 import SignupModal from "./SingupModal";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 function Navbar() {
-  // Tracks if the login and signup modal is open or not
+  // tracks if the login and signup modal is open or not
   const [showModal, setShowModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
-  const [user, setUser] = useState(null);
+  const { user, logout } = useContext(AuthContext);
 
-  // useEffect(() => {
-  //   // Only run this once (like on mount)
-  //   if (!user) {
-  //     setUser({
-  //       name: "Budi",
-  //       avatar: "👤", // or path to an avatar/icon
-  //     });
-  //   }
-  // }, []); // ← empty dependency array = only run once
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-white shadow-sm">
@@ -77,7 +70,7 @@ function Navbar() {
                     <button
                       className="btn rounded-0 px-4"
                       style={{ color: "#9b59b6", border: "1px solid #9b59b6" }}
-                      onClick={() => setUser(null)}
+                      onClick={logout}
                     >
                       LOG OUT
                     </button>
@@ -105,14 +98,14 @@ function Navbar() {
           setShowModal(false);
           setShowSignupModal(true);
         }}
-        onLoginSuccess={() => {
-          setUser({ name: "Ahmed", avatar: "👤" });
-          setShowModal(false); //
-        }}
       />
       <SignupModal
         show={showSignupModal}
         onClose={() => setShowSignupModal(false)}
+        onSignupSuccess={() => {
+          setShowSignupModal(false);
+          setShowModal(true);
+        }}
       />
     </>
   );
