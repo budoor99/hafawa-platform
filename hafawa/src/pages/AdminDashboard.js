@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Container,
   Row,
@@ -14,24 +15,19 @@ import UsersTab from "../components/admin/UsersTab.js";
 import TourGuidesTab from "../components/admin/TourGuidesTab.js";
 import DestinationsTab from "../components/admin/DestinationsTab.js";
 
-const stats = [
-  { title: "Total Users", value: "4,289", change: "+12.5%", color: "success" },
-  {
-    title: "Total Destinations",
-    value: "42",
-    change: "+3.1%",
-    color: "success",
-  },
-
-  {
-    title: "Active Tour Guides",
-    value: "87",
-    change: "-2.3%",
-    color: "danger",
-  },
-];
-
 export default function AdminDashboard() {
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalDestinations: 0,
+    activeTourGuides: 0,
+  });
+
+  useEffect(() => {
+    axios
+      .get("/api/admin/stats")
+      .then((res) => setStats(res.data))
+      .catch((err) => console.error("Failed to fetch admin stats", err));
+  }, []);
   const [key, setKey] = useState("overview");
 
   return (
@@ -47,19 +43,47 @@ export default function AdminDashboard() {
       </div>
 
       <Row className="mb-4">
-        {stats.map((stat, idx) => (
-          <Col md={6} lg={3} key={idx}>
-            <Card className="mb-3 shadow-sm">
-              <Card.Body>
-                <Card.Title className="fs-3 fw-bold">{stat.value}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  {stat.title}
-                </Card.Subtitle>
-                <Badge bg={stat.color}>{stat.change}</Badge>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
+        <Col md={6} lg={3}>
+          <Card className="mb-3 shadow-sm">
+            <Card.Body>
+              <Card.Title className="fs-3 fw-bold">
+                {stats.totalUsers}
+              </Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">
+                Total Users
+              </Card.Subtitle>
+              <Badge bg="success">+12.5%</Badge>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col md={6} lg={3}>
+          <Card className="mb-3 shadow-sm">
+            <Card.Body>
+              <Card.Title className="fs-3 fw-bold">
+                {stats.totalDestinations}
+              </Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">
+                Total Destinations
+              </Card.Subtitle>
+              <Badge bg="success">+3.1%</Badge>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col md={6} lg={3}>
+          <Card className="mb-3 shadow-sm">
+            <Card.Body>
+              <Card.Title className="fs-3 fw-bold">
+                {stats.activeTourGuides}
+              </Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">
+                Active Tour Guides
+              </Card.Subtitle>
+              <Badge bg="danger">-2.3%</Badge>
+            </Card.Body>
+          </Card>
+        </Col>
       </Row>
 
       <Tab.Container activeKey={key} onSelect={(k) => setKey(k)}>
