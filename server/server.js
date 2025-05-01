@@ -15,7 +15,12 @@ app.use(express.json());
 
 // routes
 const authRoutes = require("./routes/authRoutes");
+const tourGuideRoutes = require("./routes/tourGuideRoutes");
+const hostRoutes = require("./routes/hostRoutes");
+
+app.use("/api/tour-guides", tourGuideRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/hosts", hostRoutes);
 
 // connect to MongoDB and start server
 mongoose
