@@ -59,6 +59,11 @@ function Navbar() {
                   Contact Us
                 </Link>
               </li>
+              {user && user.role === "admin" && (
+                <Link className="nav-link" to="/admin">
+                  Dashboard
+                </Link>
+              )}
               <li className="nav-item ms-3">
                 {user ? (
                   <>
