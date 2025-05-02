@@ -20,10 +20,7 @@ exports.applyAsTourGuide = async (req, res) => {
     const profile = new TourGuideProfile({
       userId,
       aboutMe,
-      languages,
       city,
-      calendarUrl,
-      specialRequests,
       experienceYears,
     });
 
