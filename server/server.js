@@ -6,7 +6,6 @@ const cors = require("cors");
 // load environment variables
 dotenv.config();
 
-
 // create app
 const app = express();
 
@@ -37,7 +36,7 @@ mongoose
   .then(() => {
     console.log("MongoDB connected");
 
-    const PORT = 5050;
+    const PORT = 5000;
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
