@@ -6,9 +6,12 @@ const cors = require("cors");
 // load environment variables
 dotenv.config();
 
-
 // create app
 const app = express();
+
+// make /uploads folder publicly accessible
+app.use('/uploads', express.static('uploads'));
+
 
 // middleware
 app.use(cors());
@@ -19,11 +22,15 @@ const authRoutes = require("./routes/authRoutes");
 const tourGuideRoutes = require("./routes/tourGuideRoutes");
 const hostRoutes = require("./routes/hostRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const profileRoutes = require("./routes/profileRoutes");
+const messageRoutes = require("./routes/messageRoutes");
 
 app.use("/api/tour-guides", tourGuideRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/hosts", hostRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/profile", profileRoutes);
+app.use("/api/messages", messageRoutes);
 app.get("/api/test", (req, res) => {
   res.json({ message: "Backend is working" });
 });
