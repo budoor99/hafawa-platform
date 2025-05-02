@@ -18,17 +18,74 @@ import DestinationsTab from "../components/admin/DestinationsTab.js";
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
     totalUsers: 0,
-    totalDestinations: 0,
+    totalRegularUsers: 0,
+    totalTourGuides: 0,
     activeTourGuides: 0,
+    inactiveTourGuides: 0,
+    totalHosts: 0,
+    activeHosts: 0,
+    inactiveHosts: 0,
+    totalDestinations: 0,
   });
 
-  useEffect(() => {
+  const fetchStats = () => {
     axios
-      .get("/api/admin/stats")
+      .get("/api/admin/dashboard")
       .then((res) => setStats(res.data))
       .catch((err) => console.error("Failed to fetch admin stats", err));
+  };
+
+  useEffect(() => {
+    fetchStats();
   }, []);
+
   const [key, setKey] = useState("overview");
+
+  const cardConfig = [
+    {
+      key: "totalUsers",
+      label: "Total Users",
+      badge: "+12.5%",
+      color: "primary",
+    },
+    {
+      key: "totalRegularUsers",
+      label: "Regular Users",
+      badge: "+5.8%",
+      color: "secondary",
+    },
+    {
+      key: "totalTourGuides",
+      label: "Total Tour Guides",
+      badge: "+2.0%",
+      color: "info",
+    },
+    {
+      key: "activeTourGuides",
+      label: "Active Tour Guides",
+      badge: "+1.4%",
+      color: "success",
+    },
+    {
+      key: "inactiveTourGuides",
+      label: "Inactive Tour Guides",
+      badge: "-0.5%",
+      color: "danger",
+    },
+    { key: "totalHosts", label: "Total Hosts", badge: "+3.4%", color: "info" },
+    {
+      key: "activeHosts",
+      label: "Active Hosts",
+      badge: "+2.8%",
+      color: "success",
+    },
+    {
+      key: "inactiveHosts",
+      label: "Inactive Hosts",
+      badge: "-1.1%",
+      color: "warning",
+    },
+  ];
 
   return (
     <Container className="py-5">
@@ -43,47 +100,21 @@ export default function AdminDashboard() {
       </div>
 
       <Row className="mb-4">
-        <Col md={6} lg={3}>
-          <Card className="mb-3 shadow-sm">
-            <Card.Body>
-              <Card.Title className="fs-3 fw-bold">
-                {stats.totalUsers}
-              </Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                Total Users
-              </Card.Subtitle>
-              <Badge bg="success">+12.5%</Badge>
-            </Card.Body>
-          </Card>
-        </Col>
-
-        <Col md={6} lg={3}>
-          <Card className="mb-3 shadow-sm">
-            <Card.Body>
-              <Card.Title className="fs-3 fw-bold">
-                {stats.totalDestinations}
-              </Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                Total Destinations
-              </Card.Subtitle>
-              <Badge bg="success">+3.1%</Badge>
-            </Card.Body>
-          </Card>
-        </Col>
-
-        <Col md={6} lg={3}>
-          <Card className="mb-3 shadow-sm">
-            <Card.Body>
-              <Card.Title className="fs-3 fw-bold">
-                {stats.activeTourGuides}
-              </Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                Active Tour Guides
-              </Card.Subtitle>
-              <Badge bg="danger">-2.3%</Badge>
-            </Card.Body>
-          </Card>
-        </Col>
+        {cardConfig.map((item, index) => (
+          <Col md={6} lg={3} key={index}>
+            <Card className="mb-3 shadow-sm">
+              <Card.Body>
+                <Card.Title className="fs-3 fw-bold">
+                  {stats[item.key]}
+                </Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">
+                  {item.label}
+                </Card.Subtitle>
+                <Badge bg={item.color}>{item.badge}</Badge>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
       </Row>
 
       <Tab.Container activeKey={key} onSelect={(k) => setKey(k)}>
