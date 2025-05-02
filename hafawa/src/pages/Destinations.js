@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Form, Container } from "react-bootstrap";
-import DestinationCards from "../components/DestinationCards"; // Uses the original card layout
+import DestinationCards from "../components/DestinationCards"; 
 
 export default function Destinations() {
   const [destinations, setDestinations] = useState([]);
