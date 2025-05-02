@@ -1,41 +1,69 @@
 import React, { useEffect, useState, useContext } from "react";
-import axios from "axios";
 import "../styles/modal.css";
 import { AuthContext } from "../context/AuthContext";
+import { login, signup } from "../services/authService";
 
-function LoginModal({ show, onClose, onSwitchToSignup }) {
-  const { login } = useContext(AuthContext);
-  const [formData, setFormData] = useState({ email: "", password: "" });
+function LoginModal({ show, onClose, onSwitchToSignup, isSignup = false }) {
+  const { login: contextLogin } = useContext(AuthContext);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    name: "",
+    phone: "",
+  });
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = show ? "hidden" : "auto";
     if (show) {
       setMessage(""); // clear old messages
-      setFormData({ email: "", password: "" }); // clear form inputs
+      setFormData({
+        email: "",
+        password: "",
+        name: "",
+        phone: "",
+      }); // clear form inputs
     }
-  }, [show]);
+  }, [show, isSignup]);
 
   if (!show) return null;
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setMessage("");
 
     try {
-      const res = await axios.post("/api/auth/login", {
-        email: formData.email,
-        password: formData.password,
-      });
-
-      login(res.data.token, res.data.user); // update global auth context
-      setMessage("Login successful!");
-
-      setTimeout(() => {
-        onClose(); // close after 1 second delay
-      }, 1000);
+      let res;
+      if (isSignup) {
+        res = await signup(formData);
+        setMessage("Signup successful! Please login.");
+        setTimeout(() => {
+          onSwitchToSignup(false);
+        }, 1500);
+      } else {
+        res = await login(formData.email, formData.password);
+        if (res.token && res.user) {
+          contextLogin(res.token, res.user);
+          setMessage("Login successful!");
+          setTimeout(() => {
+            onClose();
+          }, 1000);
+        } else {
+          setMessage("Invalid response from server");
+        }
+      }
     } catch (err) {
-      const msg = err.response?.data?.message || "Login failed.";
+      console.error(isSignup ? "Signup error:" : "Login error:", err);
+      const msg =
+        err.response?.data?.message ||
+        (isSignup
+          ? "Signup failed. Please try again."
+          : "Login failed. Please try again.");
       setMessage(msg);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -67,8 +95,32 @@ function LoginModal({ show, onClose, onSwitchToSignup }) {
               onClick={onClose}
             ></button>
 
-            <h5 className="mb-4 fw-bold text-capitalize">Login</h5>
-            <form onSubmit={handleLogin}>
+            <h5 className="mb-4 fw-bold text-capitalize">
+              {isSignup ? "Sign Up" : "Login"}
+            </h5>
+            <form onSubmit={handleSubmit}>
+              {isSignup && (
+                <div className="mb-3">
+                  <label className="form-label fw-semibold">
+                    Full Name <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    className="form-control"
+                    placeholder="Enter your full name..."
+                    value={formData.name}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                    required
+                  />
+                </div>
+              )}
+
               <div className="mb-3">
                 <label className="form-label fw-semibold">
                   Email address <span className="text-danger">*</span>
@@ -85,8 +137,28 @@ function LoginModal({ show, onClose, onSwitchToSignup }) {
                       [e.target.name]: e.target.value,
                     })
                   }
+                  required
                 />
               </div>
+
+              {isSignup && (
+                <div className="mb-3">
+                  <label className="form-label fw-semibold">Phone Number</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    className="form-control"
+                    placeholder="Enter your phone number..."
+                    value={formData.phone}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              )}
 
               <div className="mb-3">
                 <label className="form-label fw-semibold">
@@ -104,18 +176,21 @@ function LoginModal({ show, onClose, onSwitchToSignup }) {
                       [e.target.name]: e.target.value,
                     })
                   }
+                  required
                 />
               </div>
 
-              <div className="mb-3">
-                <a
-                  href=""
-                  className="text-decoration-none"
-                  style={{ color: "#9b59b6", fontSize: "0.9rem" }}
-                >
-                  Forgot your password?
-                </a>
-              </div>
+              {!isSignup && (
+                <div className="mb-3">
+                  <a
+                    href=""
+                    className="text-decoration-none"
+                    style={{ color: "#9b59b6", fontSize: "0.9rem" }}
+                  >
+                    Forgot your password?
+                  </a>
+                </div>
+              )}
 
               <button
                 type="submit"
@@ -124,8 +199,15 @@ function LoginModal({ show, onClose, onSwitchToSignup }) {
                   backgroundColor: "#9b59b6",
                   borderRadius: "6px",
                 }}
+                disabled={isLoading}
               >
-                LOGIN
+                {isLoading
+                  ? isSignup
+                    ? "Signing up..."
+                    : "Logging in..."
+                  : isSignup
+                  ? "SIGN UP"
+                  : "LOGIN"}
               </button>
 
               {message && (
@@ -143,14 +225,16 @@ function LoginModal({ show, onClose, onSwitchToSignup }) {
                 className="text-center mt-3 mb-0"
                 style={{ fontSize: "0.9rem" }}
               >
-                Don’t have an account?{" "}
+                {isSignup
+                  ? "Already have an account? "
+                  : "Don't have an account? "}
                 <button
                   type="button"
-                  onClick={onSwitchToSignup}
+                  onClick={() => onSwitchToSignup(!isSignup)}
                   className="btn btn-link p-0 m-0 align-baseline fw-bold"
                   style={{ color: "#9b59b6", textDecoration: "none" }}
                 >
-                  Sign up
+                  {isSignup ? "Login" : "Sign up"}
                 </button>
               </p>
             </form>
