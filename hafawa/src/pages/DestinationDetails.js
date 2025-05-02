@@ -58,7 +58,7 @@ export default function DestinationDetails() {
               rel="noopener noreferrer"
               style={{ fontSize: "0.85rem", color: "#6A1B9A" }}
             >
-              Visit Saudi ↗
+              Read more ↗
             </a>
           </div>
         </div>

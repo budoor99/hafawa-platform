@@ -9,6 +9,10 @@ dotenv.config();
 // create app
 const app = express();
 
+// make /uploads folder publicly accessible
+app.use('/uploads', express.static('uploads'));
+
+
 // middleware
 app.use(cors());
 app.use(express.json());
