@@ -2,59 +2,55 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const Host = require("./models/Host"); 
 
-// load environment variables
 dotenv.config();
 
-
-// create app
 const app = express();
 
-// make /uploads folder publicly accessible
-app.use('/uploads', express.static('uploads'));
-
-
-// middleware
 app.use(cors());
 app.use(express.json());
 
-// routes
-const authRoutes = require("./routes/authRoutes");
-const tourGuideRoutes = require("./routes/tourGuideRoutes");
-const hostRoutes = require("./routes/hostRoutes");
-const adminRoutes = require("./routes/adminRoutes");
-const destinationRoutes = require('./routes/destinationRoutes'); //Destination 
-const profileRoutes = require("./routes/profileRoutes");
-const messageRoutes = require("./routes/messageRoutes");
+app.post('/applyhost', async (req, res) => {
+    const { fullName, username, email, password, phoneNumber, city } = req.body;
 
+    if (!fullName || !username || !email || !password || !phoneNumber || !city) {
+        return res.status(400).json({ message: "All fields are required." });
+    }
 
-app.use("/api/tour-guides", tourGuideRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/hosts", hostRoutes);
-app.use("/api/admin", adminRoutes);
-app.use('/api/destinations', destinationRoutes);
-app.use("/api/profile", profileRoutes);
-app.use("/api/messages", messageRoutes);
+    try {
+        const newHost = new Host({
+            fullName,
+            username,
+            email,
+            password, 
+            phoneNumber,
+            city,
+        });
 
-//to test only !
-app.get("/api/test", (req, res) => {
-  res.json({ message: "Backend is working" });
+        await newHost.save();
+
+        res.status(201).json({ message: "Details submitted successfully!" });
+    } catch (error) {
+        console.error("Error saving host:", error);
+        res.status(500).json({ message: "An error occurred while saving your details." });
+    }
 });
 
-// connect to MongoDB and start server
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("MongoDB connected");
+const startServer = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("MongoDB connected successfully");
 
-    const PORT = 5050;
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.error("MongoDB connection error:", err);
-  });
+        const PORT = process.env.PORT || 5050;
+        app.listen(PORT, () => {
+            console.log(`Server is running on http://localhost:${PORT}`);
+        });
+    } catch (err) {
+        console.error("Failed to connect to MongoDB:", err.message);
+        process.exit(1);
+    }
+};
+
+startServer();
+
