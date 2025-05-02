@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import bgImage from "../assets/hero.jpg"; 
+import bgImage from "../assets/hero.jpg"; //layal new
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
