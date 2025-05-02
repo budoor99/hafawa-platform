@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Container,
   Row,
@@ -19,42 +19,139 @@ import userImg from "../assets/user.jpeg";
 import DestinationCards from "../components/DestinationCards";
 import hegraImg from "../assets/hegra.jpg";
 import edgeImg from "../assets/edge.jpg";
-
-const defaultUser = {
-  name: "Ahmed",
-  email: "ahmed@example.com",
-  phone: "+966 500 123 456",
-  location: "Riyadh, Saudi Arabia",
-  
-  bookmarks: [
-    {
-      id: "hegra",
-      title: "Hegra",
-      location: "Al-Ula",
-      description:
-        "Saudi Arabia's first UNESCO site with ancient Nabataean tombs.",
-      image: hegraImg,
-    },
-    {
-      id: "edge-of-the-world",
-      title: "Edge of the World",
-      location: "Riyadh",
-      image: edgeImg,
-      description:
-        "Dramatic cliffs offering breathtaking views of the desert landscape below.",
-    },
-  ],
-};
+import { getUserProfile, updateUserProfile } from "../services/authService";
+import { AuthContext } from "../context/AuthContext";
 
 const Profile = () => {
-  const [user, setUser] = useState(defaultUser);
+  const { user } = useContext(AuthContext);
+  const [profileData, setProfileData] = useState(null);
   const [showEdit, setShowEdit] = useState(false);
-  const [formData, setFormData] = useState(user);
+  const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const handleSave = () => {
-    setUser(formData);
-    setShowEdit(false);
+  useEffect(() => {
+    if (!user) {
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        location: "",
+      });
+      setProfileData(null);
+      return;
+    }
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const userData = await getUserProfile(token);
+        setProfileData(userData);
+        setFormData(userData);
+        setLoading(false);
+      } catch (err) {
+        setError("Failed to load user data");
+        setLoading(false);
+      }
+    };
+
+    if (user) {
+      fetchUserData();
+    } else {
+      setProfileData(null);
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        location: "",
+      });
+    }
+  }, [user]);
+
+  const handleSave = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      setLoading(true);
+      const updatedUser = await updateUserProfile(token, formData);
+      setProfileData(updatedUser);
+      setLoading(false);
+      setShowEdit(false);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      setError(error.response?.data?.message || "Failed to update profile");
+    }
   };
+
+  if (loading) {
+    return (
+      <Container
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: "80vh" }}
+      >
+        <div className="text-center">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="mt-3">Loading profile...</p>
+        </div>
+      </Container>
+    );
+  }
+
+  if (!user) {
+    return (
+      <Container
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: "80vh" }}
+      >
+        <div className="text-center">
+          <div className="text-muted mb-3">
+            <i className="bi bi-person-x-fill" style={{ fontSize: "3rem" }}></i>
+          </div>
+          <h4>Please login to view your profile</h4>
+          <p className="text-muted">
+            You need to be logged in to access this page
+          </p>
+        </div>
+      </Container>
+    );
+  }
+
+  if (error && !showEdit) {
+    return (
+      <Container
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: "80vh" }}
+      >
+        <div className="text-center">
+          <div className="text-danger mb-3">
+            <i
+              className="bi bi-exclamation-circle-fill"
+              style={{ fontSize: "3rem" }}
+            ></i>
+          </div>
+          <h4 className="text-danger">{error}</h4>
+          <p className="text-muted">Please try again later</p>
+        </div>
+      </Container>
+    );
+  }
+
+  if (!profileData) {
+    return (
+      <Container
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: "80vh" }}
+      >
+        <div className="text-center">
+          <div className="text-muted mb-3">
+            <i className="bi bi-person-x-fill" style={{ fontSize: "3rem" }}></i>
+          </div>
+          <h4>No user data available</h4>
+          <p className="text-muted">Please login to view your profile</p>
+        </div>
+      </Container>
+    );
+  }
 
   return (
     <div className="user-profile-wrapper">
@@ -67,17 +164,19 @@ const Profile = () => {
                   <img src={userImg} alt="avatar" className="profile-avatar" />
                 </Col>
                 <Col md={6}>
-                  <h3 className="fw-bold mb-2">{user.name}</h3>
+                  <h3 className="fw-bold mb-2">{profileData.name}</h3>
 
                   <div className="text-muted small mt-3">
                     <p>
-                      <FaEnvelope className="me-2" /> {user.email}
+                      <FaEnvelope className="me-2" /> {profileData.email}
                     </p>
                     <p>
-                      <FaPhone className="me-2" /> {user.phone}
+                      <FaPhone className="me-2" />{" "}
+                      {profileData.phone || "Not provided"}
                     </p>
                     <p>
-                      <FaMapMarkerAlt className="me-2" /> {user.location}
+                      <FaMapMarkerAlt className="me-2" />{" "}
+                      {profileData.location || "Not provided"}
                     </p>
                   </div>
                 </Col>
@@ -101,12 +200,14 @@ const Profile = () => {
             </Card>
 
             {/* Bookmarks */}
-            <div className="mt-5">
-              <h4 className="mb-4">📌 My Bookmarks</h4>
-              <div className="d-flex justify-content-center">
-                <DestinationCards destinations={user.bookmarks} />
+            {profileData.bookmarks && profileData.bookmarks.length > 0 && (
+              <div className="mt-5">
+                <h4 className="mb-4">My Bookmarks</h4>
+                <div className="d-flex justify-content-center">
+                  <DestinationCards destinations={profileData.bookmarks} />
+                </div>
               </div>
-            </div>
+            )}
           </Col>
         </Row>
       </Container>
@@ -121,7 +222,7 @@ const Profile = () => {
             <Form.Group className="mb-3">
               <Form.Label>Name</Form.Label>
               <Form.Control
-                value={formData.name}
+                value={formData.name || ""}
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
                 }
@@ -131,7 +232,7 @@ const Profile = () => {
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
-                value={formData.email}
+                value={formData.email || ""}
                 onChange={(e) =>
                   setFormData({ ...formData, email: e.target.value })
                 }
@@ -140,7 +241,7 @@ const Profile = () => {
             <Form.Group className="mb-3">
               <Form.Label>Phone</Form.Label>
               <Form.Control
-                value={formData.phone}
+                value={formData.phone || ""}
                 onChange={(e) =>
                   setFormData({ ...formData, phone: e.target.value })
                 }
@@ -149,7 +250,7 @@ const Profile = () => {
             <Form.Group className="mb-3">
               <Form.Label>Location</Form.Label>
               <Form.Control
-                value={formData.location}
+                value={formData.location || ""}
                 onChange={(e) =>
                   setFormData({ ...formData, location: e.target.value })
                 }
@@ -158,12 +259,33 @@ const Profile = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowEdit(false)}>
+          <Button
+            variant="secondary"
+            onClick={() => setShowEdit(false)}
+            disabled={loading}
+          >
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleSave}>
-            Save
+          <Button
+            variant="primary"
+            disabled={loading}
+            onClick={loading ? null : handleSave}
+          >
+            {loading ? (
+              <Container className="w-10 h-10 d-flex justify-content-center align-items-center">
+                <div className="spinner-border text-white" role="status">
+                  {/* <span className="visually-hidden">Loading...</span> */}
+                </div>
+              </Container>
+            ) : (
+              "Save"
+            )}
           </Button>
+          {error && (
+            <div className="text-danger mt-2">
+              <i className="bi bi-exclamation-circle-fill"></i> {error}
+            </div>
+          )}
         </Modal.Footer>
       </Modal>
     </div>

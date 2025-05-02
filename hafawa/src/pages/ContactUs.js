@@ -1,48 +1,62 @@
-import React, { useState } from 'react';
-import '../styles/contact.css'; // We'll create this CSS file next
+import React, { useState } from "react";
+import "../styles/contact.css"; // We'll create this CSS file next
+import { sendMessage } from "../services/messageService";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: ''
+    name: "",
+    email: "",
+    phone: "",
+    content: "",
+    sender: "",
   });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Here you would typically send the form data to your backend
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! We will contact you soon.');
+    console.log("Form submitted:", formData);
+    try {
+      setIsLoading(true);
+      await sendMessage(formData);
+      setIsLoading(false);
+      alert("Thank you for your message! We will contact you soon.");
+    } catch (error) {
+      console.error("Error sending message:", error);
+      setIsLoading(false);
+      alert("Failed to send message. Please try again later.");
+    }
     setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      message: ''
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
     });
   };
 
   return (
     <div className="contact-page">
-
-
       <div className="content-container">
-
         <div className="main-content">
           <h2>Contact Us</h2>
-          <p className="subtitle">Have questions or need assistance? Reach out to our team.</p>
+          <p className="subtitle">
+            Have questions or need assistance? Reach out to our team.
+          </p>
 
           <form onSubmit={handleSubmit} className="contact-form">
             <div className="form-group">
-              <label className='form-label fw-semibold' htmlFor="name">Full Name <span className="text-danger">*</span></label>
+              <label className="form-label fw-semibold" htmlFor="name">
+                Full Name <span className="text-danger">*</span>
+              </label>
               <input
                 type="text"
                 id="name"
@@ -55,9 +69,10 @@ const ContactPage = () => {
               />
             </div>
 
-
             <div className="form-group">
-              <label className="form-label fw-semibold" htmlFor="email">Email Address <span className="text-danger">*</span></label>
+              <label className="form-label fw-semibold" htmlFor="email">
+                Email Address <span className="text-danger">*</span>
+              </label>
               <input
                 type="email"
                 id="email"
@@ -71,7 +86,9 @@ const ContactPage = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label fw-semibold" htmlFor="phone">Phone Number</label>
+              <label className="form-label fw-semibold" htmlFor="phone">
+                Phone Number
+              </label>
               <input
                 type="tel"
                 id="phone"
@@ -84,7 +101,9 @@ const ContactPage = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label fw-semibold" htmlFor="message">Message <span className="text-danger">*</span></label>
+              <label className="form-label fw-semibold" htmlFor="message">
+                Message <span className="text-danger">*</span>
+              </label>
               <textarea
                 id="message"
                 name="message"
@@ -96,7 +115,15 @@ const ContactPage = () => {
               ></textarea>
             </div>
 
-            <button type="submit" className="submit-button">SEND MESSAGE</button>
+            <button type="submit" className="submit-button">
+              {isLoading ? (
+                <div className="spinner-border text-white" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              ) : (
+                "SEND MESSAGE"
+              )}
+            </button>
           </form>
         </div>
       </div>
