@@ -3,6 +3,7 @@ import { Card, Table, Badge, Form, Button, Dropdown } from "react-bootstrap";
 import { BsThreeDotsVertical, BsPersonCircle } from "react-icons/bs";
 import SendEmailModal from "./SendEmailModal";
 import axios from "axios";
+import EditUserModal from "./EditUserModal";
 
 // Helper functions
 const getStatusText = (isVerified) => (isVerified ? "Active" : "Inactive");
@@ -76,6 +77,22 @@ export default function UsersTab() {
     setSelectedUserEmail(null);
   };
 
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const openEditModal = (user) => {
+    setSelectedUser(user);
+    setShowEditModal(true);
+  };
+
+  const handleSaveEdit = async (updatedUser) => {
+    await axios.put(`/api/admin/users/${updatedUser._id}`, updatedUser);
+    setUsers((prev) =>
+      prev.map((u) => (u._id === updatedUser._id ? updatedUser : u))
+    );
+    setShowEditModal(false);
+  };
+
   return (
     <Card className="p-4 shadow-sm">
       {/*==================== Header ===================*/}
@@ -146,7 +163,9 @@ export default function UsersTab() {
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
                     <Dropdown.Item>View Profile</Dropdown.Item>
-                    <Dropdown.Item>Edit User</Dropdown.Item>
+                    <Dropdown.Item onClick={() => openEditModal(u)}>
+                      Edit User
+                    </Dropdown.Item>
                     <Dropdown.Item onClick={() => openEmailModal(u.email)}>
                       Send Message
                     </Dropdown.Item>
@@ -224,6 +243,12 @@ export default function UsersTab() {
         show={showEmailModal}
         onClose={closeEmailModal}
         recipientEmail={selectedUserEmail}
+      />
+      <EditUserModal
+        show={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        user={selectedUser}
+        onSave={handleSaveEdit}
       />
     </Card>
   );
