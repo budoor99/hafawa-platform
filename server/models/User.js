@@ -10,11 +10,22 @@ const userSchema = new mongoose.Schema({
     enum: ["user", "host", "tourguide", "admin"],
     default: "user",
   },
+  avatarUrl: {
+    type: String,
+    default: "",
+  },
+  location: {
+    type: String,
+    default: "",
+  },
+  bookmarks: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Destination",
+    },
+  ],
   isVerified: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
-
-  bookmarkedDestinations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Destination' }] //a user can have many destinations bookmarked
-
 });
 
 module.exports = mongoose.model("User", userSchema);

@@ -1,50 +1,86 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Form, Container } from "react-bootstrap";
-import DestinationCards from "../components/DestinationCards"; // Uses the original card layout
+import hegraImg from "../assets/hegra.jpg";
+import edgeImg from "../assets/edge.jpg";
+import diriyahImg from "../assets/Diriyah.jpg";
+import ahsaImg from "../assets/ahsa.jpg";
+import farsanImg from "../assets/farsan.jpeg";
+import DestinationCardsGrid from "../components/DestinationCards";
 
-export default function Destinations() {
-  const [destinations, setDestinations] = useState([]);
+const destinationsData = [
+  {
+    id: "hegra",
+    title: "Hegra",
+    location: "Al-Ula",
+    description:
+      "Saudi Arabia's first UNESCO site with ancient Nabataean tombs.",
+    image: hegraImg,
+  },
+  {
+    id: "edge-of-the-world",
+    title: "Edge of the World",
+    location: "Riyadh",
+    image: edgeImg,
+    description:
+      "Dramatic cliffs offering breathtaking views of the desert landscape below.",
+  },
+  {
+    id: "diriyah",
+    title: "Diriyah",
+    location: "Riyadh",
+    image: diriyahImg,
+    description:
+      "The birthplace of the first Saudi state with traditional mud-brick architecture.",
+  },
+  {
+    id: "al-ahsa-oasis",
+    title: "Al-Ahsa Oasis",
+    location: "Eastern Province",
+    image: ahsaImg,
+    description:
+      "The largest oasis in the world with over 2.5 million date palms and natural springs.",
+  },
+  {
+    id: "farasan-islands",
+    title: "Farasan Islands",
+    location: "Jazan",
+    image: farsanImg,
+    description:
+      "A protected marine sanctuary with pristine beaches and diverse marine life.",
+  },
+];
+
+export default function Destinations({ destinations = destinationsData }) {
   const [searchQuery, setSearchQuery] = useState("");
-
-  useEffect(() => {
-    fetch("/api/destinations")
-      .then((res) => res.json())
-      .then((data) => setDestinations(data))
-      .catch((err) => console.error("Error fetching destinations:", err));
-  }, []);
 
   const filtered = destinations.filter(
     (dest) =>
-      dest.name?.toLowerCase().includes(searchQuery.toLowerCase())
+      dest.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      dest.location.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
     <Container fluid className="px-0">
-      <div style={{ backgroundColor: "#f5f0ff", padding: "60px 20px 30px 20px" }}>
-        <div className="container text-center">
+      <div
+        style={{ backgroundColor: "#f5f0ff", padding: "60px 20px 30px 20px" }}
+      >
+        <div className="container">
           <h2 className="fw-bold mb-3" style={{ color: "#6A1B9A" }}>
             Discover landmarks and local experiences
           </h2>
-          <Form className="d-flex justify-content-center mb-2">
+          <Form style={{ maxWidth: "400px" }}>
             <Form.Control
               type="text"
               placeholder="Search destinations..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{
-                maxWidth: "400px",
-                textAlign: "center",
-                boxShadow: "0 1px 4px rgba(0,0,0,0.1)"
-              }}
             />
           </Form>
         </div>
       </div>
 
       <div className="d-flex justify-content-center">
-        <div style={{ maxWidth: "1200px", width: "100%" }}>
-          <DestinationCards destinations={filtered} />
-        </div>
+        <DestinationCardsGrid destinations={filtered} />
       </div>
     </Container>
   );
