@@ -25,6 +25,7 @@ const hostRoutes = require("./routes/hostRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const destinationRoutes = require('./routes/destinationRoutes'); //Destination 
 const profileRoutes = require("./routes/profileRoutes");
+const messageRoutes = require("./routes/messageRoutes");
 
 
 app.use("/api/tour-guides", tourGuideRoutes);
@@ -33,7 +34,7 @@ app.use("/api/hosts", hostRoutes);
 app.use("/api/admin", adminRoutes);
 app.use('/api/destinations', destinationRoutes);
 app.use("/api/profile", profileRoutes);
-
+app.use("/api/messages", messageRoutes);
 
 //to test only !
 app.get("/api/test", (req, res) => {

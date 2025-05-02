@@ -1,23 +1,11 @@
-const express = require("express");
-const router = express.Router();
-const Message = require("../models/Message");
+import axios from "axios";
 
-router.post("/", async (req, res) => {
+export const sendMessage = async (messageData) => {
   try {
-    const { content, name, email, sender, phone } = req.body;
-
-    const message = new Message({
-      content,
-      name,
-      email,
-      phone,
-    });
-    await message.save();
-    res.status(201).json(message);
+    const response = await axios.post("/api/messages", messageData);
+    return response.data;
   } catch (error) {
-    console.error("Error sending message:", error);
-    res.status(500).json({ message: "Server error" });
+    console.error("Message send error:", error);
+    throw error;
   }
-});
-
-module.exports = router;
+};
