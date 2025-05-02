@@ -19,11 +19,15 @@ const authRoutes = require("./routes/authRoutes");
 const tourGuideRoutes = require("./routes/tourGuideRoutes");
 const hostRoutes = require("./routes/hostRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const destinationRoutes = require('./routes/destinationRoutes'); //Destination 
 
 app.use("/api/tour-guides", tourGuideRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/hosts", hostRoutes);
 app.use("/api/admin", adminRoutes);
+app.use('/api/destinations', destinationRoutes);
+
+//to test only !
 app.get("/api/test", (req, res) => {
   res.json({ message: "Backend is working" });
 });
