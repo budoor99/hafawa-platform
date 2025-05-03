@@ -5,6 +5,7 @@ import { BsThreeDotsVertical, BsPersonCircle } from "react-icons/bs";
 import axios from "axios";
 import SendEmailModal from "./SendEmailModal";
 import EditUserModal from "./EditUserModal";
+import GenericProfileModal from "./GenericProfileModal";
 
 // ============================== Helpers ==============================
 const getStatusText = (isVerified) => (isVerified ? "Active" : "Inactive");
@@ -26,6 +27,7 @@ export default function HostsTab({ onStatsUpdate }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
   const [selectedUserEmail, setSelectedUserEmail] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const hostsPerPage = 5;
@@ -145,6 +147,10 @@ export default function HostsTab({ onStatsUpdate }) {
               style={{ paddingLeft: "2.2rem" }}
             />
           </div>
+          <Button className="btn-purple" onClick={() => setShowAddModal(true)}>
+            <i className="bi bi-person-plus me-2" />
+            Add Host
+          </Button>
         </div>
       </div>
 
@@ -243,8 +249,10 @@ export default function HostsTab({ onStatsUpdate }) {
               size="sm"
               onClick={() => setCurrentPage(i + 1)}
               style={{
+                borderRadius: "8px",
+                border: "1px solid #e0e0e0",
                 backgroundColor: currentPage === i + 1 ? "#f4f0ff" : "white",
-                border: "1px solid #ccc",
+                color: "#000",
               }}
             >
               {i + 1}
@@ -274,6 +282,17 @@ export default function HostsTab({ onStatsUpdate }) {
         onClose={() => setShowEditModal(false)}
         user={selectedUser}
         onSave={handleSaveEdit}
+      />
+      <GenericProfileModal
+        show={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        endpoint="/api/hosts/apply"
+        title="➕ Add Host"
+        buttonLabel="Add Host"
+        onSuccess={() => {
+          fetchHosts();
+          onStatsUpdate?.();
+        }}
       />
     </Card>
   );

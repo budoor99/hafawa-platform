@@ -3,11 +3,13 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 
-export default function AddTourGuideModal({
+export default function GenericProfileModal({
   show,
   onClose,
-  onGuideAdded,
-  onStatsUpdate,
+  endpoint,
+  title,
+  buttonLabel,
+  onSuccess,
 }) {
   // ============================== State ==============================
   const [formData, setFormData] = useState({
@@ -24,12 +26,10 @@ export default function AddTourGuideModal({
 
   // ============================== Effects ==============================
   useEffect(() => {
-    if (show) {
-      resetForm();
-    }
+    if (show) resetForm();
   }, [show]);
 
-  // ============================== Utility functions ==============================
+  // ============================== Utility Functions ==============================
   const resetForm = () => {
     setFormData({
       name: "",
@@ -47,10 +47,7 @@ export default function AddTourGuideModal({
   // ============================== Handlers ==============================
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async () => {
@@ -79,36 +76,35 @@ export default function AddTourGuideModal({
       return;
     }
 
-    try {
-      const payload = {
-        name,
-        email,
-        phone,
-        password,
-        aboutMe,
-        city,
-        experienceYears: parseInt(experienceYears),
-        languages: languages
-          ? languages
-              .split(",")
-              .map((lang) => lang.trim())
-              .filter(Boolean)
-          : [],
-        specialRequests: specialRequests
-          ? specialRequests
-              .split(",")
-              .map((req) => req.trim())
-              .filter(Boolean)
-          : [],
-      };
+    const payload = {
+      name,
+      email,
+      phone,
+      password,
+      aboutMe,
+      city,
+      experienceYears: parseInt(experienceYears),
+      languages: languages
+        ? languages
+            .split(",")
+            .map((lang) => lang.trim())
+            .filter(Boolean)
+        : [],
+      specialRequests: specialRequests
+        ? specialRequests
+            .split(",")
+            .map((req) => req.trim())
+            .filter(Boolean)
+        : [],
+    };
 
-      await axios.post("/api/tour-guides/apply", payload);
-      onGuideAdded?.();
-      onStatsUpdate?.();
+    try {
+      await axios.post(endpoint, payload);
+      onSuccess?.();
       onClose();
     } catch (err) {
-      console.error("Failed to add tour guide", err);
-      alert("Failed to create tour guide. Please try again.");
+      console.error("Failed to submit", err);
+      alert("Failed to submit. Please try again.");
     }
   };
 
@@ -120,7 +116,7 @@ export default function AddTourGuideModal({
         closeButton
       >
         <Modal.Title className="fw-bold" style={{ color: "#4A148C" }}>
-          ➕ Add Tour Guide
+          {title}
         </Modal.Title>
       </Modal.Header>
 
@@ -241,13 +237,9 @@ export default function AddTourGuideModal({
         </Button>
         <Button
           onClick={handleSubmit}
-          style={{
-            backgroundColor: "#4A148C",
-            border: "none",
-            color: "#fff",
-          }}
+          style={{ backgroundColor: "#4A148C", border: "none", color: "#fff" }}
         >
-          Add Guide
+          {buttonLabel}
         </Button>
       </Modal.Footer>
     </Modal>

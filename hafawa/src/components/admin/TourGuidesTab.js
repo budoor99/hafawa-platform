@@ -4,7 +4,7 @@ import { Card, Table, Badge, Form, Button, Dropdown } from "react-bootstrap";
 import { BsThreeDotsVertical, BsPersonCircle } from "react-icons/bs";
 import SendEmailModal from "./SendEmailModal";
 import EditUserModal from "./EditUserModal";
-import AddTourGuideModal from "./AddTourGuideModal";
+import GenericProfileModal from "./GenericProfileModal";
 import axios from "axios";
 
 // ============================== Helpers ==============================
@@ -290,11 +290,16 @@ export default function TourGuidesTab({ onStatsUpdate }) {
         user={selectedUser}
         onSave={handleSaveEdit}
       />
-      <AddTourGuideModal
+      <GenericProfileModal
         show={showAddModal}
         onClose={() => setShowAddModal(false)}
-        onGuideAdded={fetchGuides}
-        onStatsUpdate={onStatsUpdate}
+        endpoint="/api/tour-guides/apply"
+        title="➕ Add Tour Guide"
+        buttonLabel="Add Guide"
+        onSuccess={() => {
+          fetchGuides();
+          onStatsUpdate?.();
+        }}
       />
     </Card>
   );
