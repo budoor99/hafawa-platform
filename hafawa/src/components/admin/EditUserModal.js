@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
-// ============================== Component ==============================
 export default function EditUserModal({ show, onClose, user, onSave }) {
   // ============================== State ==============================
   const [formData, setFormData] = useState({

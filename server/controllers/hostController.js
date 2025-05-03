@@ -134,3 +134,68 @@ exports.getAllHosts = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+exports.updateHost = async (req, res) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    const { id } = req.params;
+    const {
+      name,
+      email,
+      phone,
+      isVerified,
+      city,
+      aboutMe,
+      languages,
+      experienceYears,
+      specialRequests,
+      calendarUrl,
+    } = req.body;
+
+    const user = await User.findById(id).session(session);
+    if (!user || user.role !== "host") {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(404).json({ message: "Host not found" });
+    }
+
+    user.name = name;
+    user.email = email;
+    user.phone = phone;
+    user.isVerified = isVerified;
+    await user.save({ session });
+
+    const profile = await HostProfile.findOne({ user: id }).session(session);
+    if (!profile) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(404).json({ message: "Host profile not found" });
+    }
+
+    profile.city = city;
+    profile.aboutMe = aboutMe;
+    profile.languages = languages;
+    profile.experienceYears = experienceYears;
+    profile.specialRequests = specialRequests;
+    profile.calendarUrl = calendarUrl;
+    if (req.body.placePhotos !== undefined) {
+      profile.placePhotos = req.body.placePhotos;
+    }
+
+    await profile.save({ session });
+
+    await session.commitTransaction();
+    session.endSession();
+
+    res
+      .status(200)
+      .json({ message: "Host updated successfully", user, profile });
+  } catch (err) {
+    await session.abortTransaction();
+    session.endSession();
+    console.error("Update host failed:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};

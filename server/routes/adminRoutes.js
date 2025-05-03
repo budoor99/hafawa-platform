@@ -17,7 +17,7 @@ const {
   updateTourGuide,
 } = require("../controllers/tourGuideController");
 
-const { getAllHosts } = require("../controllers/hostController");
+const { getAllHosts, updateHost } = require("../controllers/hostController");
 
 // Dashboard
 router.get("/dashboard", getDashboardStats);
@@ -38,6 +38,7 @@ router.put("/tour-guides/:id", updateTourGuide);
 
 // Hosts
 router.get("/hosts", getAllHosts);
+router.put("/hosts/:id", updateHost);
 
 router.post("/send-email", sendEmailToUser);
 
