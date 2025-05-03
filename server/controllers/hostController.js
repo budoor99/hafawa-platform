@@ -199,3 +199,40 @@ exports.updateHost = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
+// Activate Host
+exports.activateHost = async (req, res) => {
+  try {
+    const hostId = req.params.id;
+    const user = await User.findById(hostId);
+    if (!user || user.role !== "host") {
+      return res.status(404).json({ message: "Host not found" });
+    }
+
+    user.isVerified = true;
+    await user.save();
+    res.status(200).json({ message: "Host activated" });
+  } catch (err) {
+    console.error("Activation error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Deactivate Host
+exports.deactivateHost = async (req, res) => {
+  console.log("heree");
+  try {
+    const hostId = req.params.id;
+    const user = await User.findById(hostId);
+    if (!user || user.role !== "host") {
+      return res.status(404).json({ message: "Host not found" });
+    }
+
+    user.isVerified = false;
+    await user.save();
+    res.status(200).json({ message: "Host deactivated" });
+  } catch (err) {
+    console.error("Deactivation error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
