@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
+
 // load environment variables
 dotenv.config();
 
@@ -57,4 +58,3 @@ mongoose
   .catch((err) => {
     console.error("MongoDB connection error:", err);
   });
-

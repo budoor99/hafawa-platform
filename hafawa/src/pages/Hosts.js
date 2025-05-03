@@ -40,6 +40,7 @@ export default function Hosts() {
 
   const uniqueCities = [...new Set(hosts.map((host) => host.city))];
 
+
   return (
     <>
       <div style={{ backgroundColor: "#E6D9F6", padding: "60px 0" }}>
@@ -84,6 +85,7 @@ export default function Hosts() {
           </Col>
 
           <Col md={9}>
+
             <h5 className="fw-bold mb-4">
               {filteredHosts.length} Hosts Available
             </h5>
@@ -156,6 +158,7 @@ export default function Hosts() {
             </Button>
           </Link>
         </div>
+
       </Container>
     </>
   );

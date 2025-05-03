@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+
 const {
   applyAsHost,
   createHost,
@@ -23,3 +24,4 @@ router.get("/view/:hostId", getHostById);
 
 
 module.exports = router;
+

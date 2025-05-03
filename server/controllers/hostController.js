@@ -1,3 +1,4 @@
+
 const User = require("../models/User");
 const Host = require("../models/HostProfile");
 
@@ -30,11 +31,13 @@ exports.applyAsHost = async (req, res) => {
       experienceYears: 0,
       calendarUrl: "",
       placePhotos: [],
+
     });
 
     await hostProfile.save();
 
     res.status(201).json({
+
       message: "Host application submitted successfully",
       user: savedUser,
       hostProfile,
@@ -142,5 +145,6 @@ exports.deleteHostProfile = async (req, res) => {
   } catch (error) {
     console.error("Error deleting host:", error.message);
     res.status(500).json({ message: "Error deleting host", error: error.message });
+
   }
 };

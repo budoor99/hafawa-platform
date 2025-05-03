@@ -1,4 +1,5 @@
 
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Card, Row, Col, Spinner } from "react-bootstrap";
@@ -34,6 +35,7 @@ const HostDetails = () => {
 
   if (!host) {
     return <div className="text-center py-5">Host not found.</div>;
+
   }
 
   return (
@@ -43,6 +45,7 @@ const HostDetails = () => {
           <Row className="align-items-center">
             <Col md={4} className="text-center">
               <img
+
                 src="/default-host.jpg"
                 alt={host.user?.name}
                 className="rounded-circle mb-3"
@@ -63,6 +66,7 @@ const HostDetails = () => {
               <h5>Availability</h5>
               <iframe
                 src={host.calendarUrl || "https://calendar.google.com/calendar/embed?src=en.saudi%23holiday%40group.v.calendar.google.com&ctz=Asia%2FRiyadh"}
+
                 style={{
                   border: 0,
                   width: "100%",
@@ -82,3 +86,4 @@ const HostDetails = () => {
 };
 
 export default HostDetails;
+
