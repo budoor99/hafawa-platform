@@ -12,11 +12,13 @@ import {
   Badge,
 } from "react-bootstrap";
 import "../styles/Dashboard.css";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 import UsersTab from "../components/admin/UsersTab.js";
 import TourGuidesTab from "../components/admin/TourGuidesTab.js";
 import DestinationsTab from "../components/admin/DestinationsTab.js";
 import HostsTab from "../components/admin/HostsTab";
+import DashboardPDFDocument from "../components/admin/DashboardPDFDocument.js";
 
 export default function AdminDashboard() {
   // ============================== State ==============================
@@ -105,7 +107,17 @@ export default function AdminDashboard() {
             Welcome back, Admin! Here's what's happening with Hafawa today.
           </p>
         </div>
-        <Button className="btn-purple">Export Report</Button>
+        {/* <Button className="btn-purple">Export Report</Button> */}
+        {/* <PDFDownloadLink
+          document={<DashboardPDFDocument stats={stats} />}
+          fileName="hafawa_dashboard_report.pdf"
+        >
+          {({ loading }) => (
+            <Button className="btn-purple">
+              {loading ? "Generating PDF..." : "Export Report"}
+            </Button>
+          )}
+        </PDFDownloadLink> */}
       </div>
 
       {/* ================= Stats Cards ================= */}
