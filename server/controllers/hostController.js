@@ -101,3 +101,36 @@ exports.upgradeToHost = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
+// Get all Hosts
+exports.getAllHosts = async (req, res) => {
+  try {
+    const users = await User.find({ role: "host" })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    const profiles = await HostProfile.find().lean();
+
+    const merged = users.map((user) => {
+      const profile = profiles.find(
+        (p) => p.user.toString() === user._id.toString()
+      );
+
+      return {
+        ...user,
+        city: profile?.city || "",
+        aboutMe: profile?.aboutMe || "",
+        languages: profile?.languages || [],
+        experienceYears: profile?.experienceYears || 0,
+        specialRequests: profile?.specialRequests || [],
+        calendarUrl: profile?.calendarUrl || "",
+        activities: profile?.placePhotos || [],
+      };
+    });
+
+    res.status(200).json(merged);
+  } catch (err) {
+    console.error("Error fetching Hosts:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};

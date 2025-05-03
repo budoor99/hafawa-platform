@@ -16,6 +16,7 @@ import "../styles/Dashboard.css";
 import UsersTab from "../components/admin/UsersTab.js";
 import TourGuidesTab from "../components/admin/TourGuidesTab.js";
 import DestinationsTab from "../components/admin/DestinationsTab.js";
+import HostsTab from "../components/admin/HostsTab";
 
 export default function AdminDashboard() {
   // ============================== State ==============================
@@ -31,7 +32,7 @@ export default function AdminDashboard() {
     totalDestinations: 0,
   });
 
-  const [key, setKey] = useState("overview");
+  const [key, setKey] = useState("users");
 
   // ============================== Effects ==============================
   useEffect(() => {
@@ -130,7 +131,7 @@ export default function AdminDashboard() {
       <Tab.Container activeKey={key} onSelect={(k) => setKey(k)}>
         <Nav variant="tabs" className="custom-tabs mb-4">
           <Nav.Item>
-            <Nav.Link eventKey="overview">Overview</Nav.Link>
+            <Nav.Link eventKey="hosts">Hosts</Nav.Link>
           </Nav.Item>
           <Nav.Item>
             <Nav.Link eventKey="users">Users</Nav.Link>
@@ -144,9 +145,8 @@ export default function AdminDashboard() {
         </Nav>
 
         <Tab.Content>
-          <Tab.Pane eventKey="overview">
-            <h4>Overview Content</h4>
-            <p>Summary of everything happening.</p>
+          <Tab.Pane eventKey="hosts">
+            <HostsTab onStatsUpdate={fetchStats} />
           </Tab.Pane>
 
           <Tab.Pane eventKey="users">

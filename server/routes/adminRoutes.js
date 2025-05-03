@@ -17,6 +17,8 @@ const {
   updateTourGuide,
 } = require("../controllers/tourGuideController");
 
+const { getAllHosts } = require("../controllers/hostController");
+
 // Dashboard
 router.get("/dashboard", getDashboardStats);
 
@@ -28,11 +30,14 @@ router.put("/users/:id", updateUser);
 router.delete("/users/delete/:userId", deleteUser); //for All
 
 // Tour Guides
-router.get("/tour-guides", getAllTourGuides); //
+router.get("/tour-guides", getAllTourGuides);
 router.patch("/tour-guides/:id/deactivate", deactivateTourGuide);
 router.patch("/tour-guides/:id/activate", activateTourGuide);
 router.post("/tour-guides/apply", applyAsTourGuide); // to add new tour guide
 router.put("/tour-guides/:id", updateTourGuide);
+
+// Hosts
+router.get("/hosts", getAllHosts);
 
 router.post("/send-email", sendEmailToUser);
 
