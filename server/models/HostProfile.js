@@ -31,4 +31,6 @@ const hostSchema = new mongoose.Schema({
   ],
 });
 
+
 module.exports = mongoose.model("Host", hostSchema);
+

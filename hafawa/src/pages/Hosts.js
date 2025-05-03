@@ -1,55 +1,45 @@
-import React, { useState } from "react";
-import { Card, Form, Container, Row, Col, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import maleImg from "../assets/man.jpg";
-import femaleImg from "../assets/fem.jpg";
 
-const hostsData = [
-  {
-    id: "Ahmed",
-    name: "Ahmed Al-Saud",
-    city: "Riyadh",
-    image: maleImg,
-  },
-  {
-    id: "fatima",
-    name: "Fatima Al-Qarni",
-    city: "Jeddah",
-    image: femaleImg,
-  },
-  {
-    id: "mohammed",
-    name: "Mohammed Al-Zahrani",
-    city: "Mecca",
-    image: maleImg,
-  },
-  {
-    id: "fahd",
-    name: "Fahd Alabdullah",
-    city: "Taif",
-    image: maleImg,
-  },
-  {
-    id: "nasser",
-    name: "Nasser Hamad",
-    city: "Janoub",
-    image: maleImg,
-  },
-];
+import React, { useEffect, useState } from "react";
+import { Card, Form, Container, Row, Col, Button, Spinner } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function Hosts() {
+  const [hosts, setHosts] = useState([]);
+  const [filteredHosts, setFilteredHosts] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  const uniqueCities = [...new Set(hostsData.map((host) => host.city))];
+  useEffect(() => {
+    const fetchHosts = async () => {
+      try {
+        const response = await axios.get("http://localhost:5050/api/hosts");
+        setHosts(response.data);
+        setFilteredHosts(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching hosts:", error);
+        setLoading(false);
+      }
+    };
 
-  const filtered = hostsData.filter((host) => {
-    const matchesCity = selectedCity ? host.city === selectedCity : true;
-    const matchesSearch = host.name
-      .toLowerCase()
-      .includes(search.toLowerCase());
-    return matchesCity && matchesSearch;
-  });
+    fetchHosts();
+  }, []);
+
+  useEffect(() => {
+    const filtered = hosts.filter((host) => {
+      const matchesCity = selectedCity ? host.city === selectedCity : true;
+      const matchesSearch = host.user?.name
+        ?.toLowerCase()
+        .includes(search.toLowerCase());
+      return matchesCity && matchesSearch;
+    });
+    setFilteredHosts(filtered);
+  }, [search, selectedCity, hosts]);
+
+  const uniqueCities = [...new Set(hosts.map((host) => host.city))];
+
 
   return (
     <>
@@ -95,78 +85,80 @@ export default function Hosts() {
           </Col>
 
           <Col md={9}>
-            <h5 className="fw-bold mb-4">{filtered.length} Hosts Available</h5>
-            <Row className="g-4">
-              {filtered.map((host) => (
-                <Col key={host.id} xs={12} sm={6} md={6} lg={4}>
-                  <Card className="text-center shadow-sm border-0 h-100 d-flex flex-column justify-content-between p-3">
-                    <div>
-                      <div className="d-flex justify-content-center">
-                        <img
-                          src={host.image}
-                          alt={host.name}
-                          className="rounded-circle mb-3"
-                          style={{
-                            width: "120px",
-                            height: "120px",
-                            objectFit: "cover",
-                          }}
-                        />
-                      </div>
-                      <Card.Title className="mb-1">{host.name}</Card.Title>
-                      <Card.Subtitle className="text-muted mb-3">
-                        {host.city}
-                      </Card.Subtitle>
-                    </div>
-                    <Link
-                      to={`/hosts/${host.id}`}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <Button
-                        size="sm"
-                        style={{
-                          color: "#6A1B9A",
-                          borderColor: "#6A1B9A",
-                          backgroundColor: "transparent",
-                        }}
-                        variant="outline"
-                        className="w-100"
-                      >
-                        View Profile
-                      </Button>
-                    </Link>
-                  </Card>
-                </Col>
-              ))}
-            </Row>
 
-            <Container className="text-center mt-5">
-              <h4
-                style={{
-                  color: "#3B9C3B",
-                  fontWeight: "bold",
-                  marginBottom: "24px",
-                }}
-              >
-                WANT TO HOST GUESTS IN YOUR CITY?
-              </h4>
-              <Link to="/applyhost">
-                <Button
-                  variant="light"
-                  style={{
-                    padding: "10px 30px",
-                    fontWeight: "500",
-                    borderRadius: "12px",
-                    backgroundColor: "#F3F1FF",
-                    border: "none",
-                  }}
-                >
-                  Become a Host
-                </Button>
-              </Link>
-            </Container>
+            <h5 className="fw-bold mb-4">
+              {filteredHosts.length} Hosts Available
+            </h5>
+
+            {loading ? (
+              <div className="text-center py-5">
+                <Spinner animation="border" variant="primary" />
+              </div>
+            ) : (
+              <Row className="g-4">
+                {filteredHosts.map((host) => (
+                  <Col key={host._id} xs={12} sm={6} md={6} lg={4}>
+                    <Card className="text-center shadow-sm border-0 h-100 d-flex flex-column justify-content-between p-3">
+                      <div>
+                        <div className="d-flex justify-content-center">
+                          <img
+                            src={host.profilePicture || "/default-host.jpg"} // Default image if not available
+                            alt={host.user?.name}
+                            className="rounded-circle mb-3"
+                            style={{
+                              width: "120px",
+                              height: "120px",
+                              objectFit: "cover",
+                            }}
+                          />
+                        </div>
+                        <Card.Title className="mb-1">
+                          {host.user?.name}
+                        </Card.Title>
+                        <Card.Subtitle className="text-muted mb-3">
+                          {host.city}
+                        </Card.Subtitle>
+                      </div>
+                      <Link
+                        to={`/hosts/view/${host._id}`} // Link to view details
+                        style={{ textDecoration: "none" }}
+                      >
+                        <Button
+                          size="sm"
+                          style={{
+                            color: "#6A1B9A",
+                            borderColor: "#6A1B9A",
+                            backgroundColor: "transparent",
+                          }}
+                          variant="outline"
+                          className="w-100"
+                        >
+                          View Profile
+                        </Button>
+                      </Link>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            )}
           </Col>
         </Row>
+
+        <div className="text-center mt-5">
+          <Link to="/applyhost"> {/* Updated link to host application */}
+            <Button
+              style={{
+                backgroundColor: "#6A1B9A",
+                color: "white",
+                borderRadius: "10px",
+                padding: "10px 20px",
+              }}
+            >
+              Apply to Join as a Host
+            </Button>
+          </Link>
+        </div>
+
       </Container>
     </>
   );
