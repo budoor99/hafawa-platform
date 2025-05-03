@@ -18,7 +18,7 @@ import UsersTab from "../components/admin/UsersTab.js";
 import TourGuidesTab from "../components/admin/TourGuidesTab.js";
 import DestinationsTab from "../components/admin/DestinationsTab.js";
 import HostsTab from "../components/admin/HostsTab";
-import DashboardPDFDocument from "../components/admin/DashboardPDFDocument.js";
+// import DashboardPDFDocument from "../components/admin/DashboardPDFDocument.js";
 
 export default function AdminDashboard() {
   // ============================== State ==============================
