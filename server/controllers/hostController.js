@@ -3,8 +3,6 @@ const HostProfile = require("../models/HostProfile");
 const User = require("../models/User");
 const mongoose = require("mongoose");
 
-
-const User = require("../models/User");
 const Host = require("../models/HostProfile");
 
 // Apply as a host (creates a user and marks them as host)
@@ -27,7 +25,7 @@ exports.applyAsHost = async (req, res) => {
     const savedUser = await newUser.save();
 
     // 2. Create the Host profile
-    const hostProfile = new Host({
+    const hostProfile = new HostProfile({
       user: savedUser._id,
       city,
       aboutMe: "",
@@ -36,20 +34,20 @@ exports.applyAsHost = async (req, res) => {
       experienceYears: 0,
       calendarUrl: "",
       placePhotos: [],
-
     });
 
     await hostProfile.save();
 
     res.status(201).json({
-
       message: "Host application submitted successfully",
       user: savedUser,
       hostProfile,
     });
   } catch (error) {
     console.error("Error saving host application:", error);
-    res.status(500).json({ message: "Error applying as host", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error applying as host", error: error.message });
   }
 };
 
@@ -65,12 +63,14 @@ exports.createHost = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const existingProfile = await Host.findOne({ user: userId });
+    const existingProfile = await HostProfile.findOne({ user: userId });
     if (existingProfile) {
-      return res.status(400).json({ message: "Host profile already exists for this user" });
+      return res
+        .status(400)
+        .json({ message: "Host profile already exists for this user" });
     }
 
-    const newHost = new Host({
+    const newHost = new HostProfile({
       user: userId,
       city,
       aboutMe: "",
@@ -88,18 +88,22 @@ exports.createHost = async (req, res) => {
     res.status(201).json({ message: "Host profile created", host: savedHost });
   } catch (error) {
     console.error("Error creating host profile:", error.message);
-    res.status(500).json({ message: "Error creating host profile", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error creating host profile", error: error.message });
   }
 };
 
 // ✅ List all hosts (used in /hosts)
 exports.listAllHosts = async (req, res) => {
   try {
-    const hosts = await Host.find().populate("user");
+    const hosts = await HostProfile.find().populate("user");
     res.status(200).json(hosts);
   } catch (error) {
     console.error("Error fetching hosts:", error.message);
-    res.status(500).json({ message: "Error fetching hosts", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching hosts", error: error.message });
   }
 };
 
@@ -108,7 +112,7 @@ exports.getHostById = async (req, res) => {
   const { hostId } = req.params;
 
   try {
-    const host = await Host.findById(hostId).populate("user");
+    const host = await HostProfile.findById(hostId).populate("user");
 
     if (!host) {
       return res.status(404).json({ message: "Host not found" });
@@ -117,7 +121,9 @@ exports.getHostById = async (req, res) => {
     res.status(200).json(host);
   } catch (error) {
     console.error("Error fetching host profile:", error.message);
-    res.status(500).json({ message: "Error fetching host profile", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching host profile", error: error.message });
   }
 };
 
@@ -127,14 +133,18 @@ exports.updateHostProfile = async (req, res) => {
   const updateData = req.body;
 
   try {
-    const host = await Host.findByIdAndUpdate(hostId, updateData, { new: true }).populate("user");
+    const host = await HostProfile.findByIdAndUpdate(hostId, updateData, {
+      new: true,
+    }).populate("user");
     if (!host) {
       return res.status(404).json({ message: "Host not found" });
     }
     res.status(200).json({ message: "Host updated", host });
   } catch (error) {
     console.error("Error updating host:", error.message);
-    res.status(500).json({ message: "Error updating host", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error updating host", error: error.message });
   }
 };
 
@@ -142,15 +152,16 @@ exports.deleteHostProfile = async (req, res) => {
   const { hostId } = req.params;
 
   try {
-    const deleted = await Host.findByIdAndDelete(hostId);
+    const deleted = await HostProfile.findByIdAndDelete(hostId);
     if (!deleted) {
       return res.status(404).json({ message: "Host not found" });
     }
     res.status(200).json({ message: "Host profile deleted" });
   } catch (error) {
     console.error("Error deleting host:", error.message);
-    res.status(500).json({ message: "Error deleting host", error: error.message });
-
+    res
+      .status(500)
+      .json({ message: "Error deleting host", error: error.message });
   }
 };
 

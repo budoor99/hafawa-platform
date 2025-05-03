@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const { applyAsHost, upgradeToHost } = require("../controllers/hostController");
-
 const {
   applyAsHost,
   createHost,
@@ -9,6 +7,7 @@ const {
   getHostById,
   updateHostProfile,
   deleteHostProfile,
+  upgradeToHost,
 } = require("../controllers/hostController");
 
 // Apply as a host

@@ -4,10 +4,20 @@ const TourGuideProfile = require("../models/TourGuideProfile");
 const User = require("../models/User");
 const mongoose = require("mongoose");
 
-
 exports.applyAsTourGuide = async (req, res) => {
   try {
-    const { name, email, phone, password, aboutMe, city, experienceYears, languages, calendarUrl, specialRequests } = req.body;
+    const {
+      name,
+      email,
+      phone,
+      password,
+      aboutMe,
+      city,
+      experienceYears,
+      languages,
+      calendarUrl,
+      specialRequests,
+    } = req.body;
 
     const userId = await createUser({
       name,
@@ -23,20 +33,24 @@ exports.applyAsTourGuide = async (req, res) => {
       aboutMe,
       city,
       experienceYears,
-      activities
-      
+      activities,
     });
 
     await profile.save();
 
-    res.status(201).json({ message: "Tour guide application submitted.", userId, profileId: profile._id });
+    res
+      .status(201)
+      .json({
+        message: "Tour guide application submitted.",
+        userId,
+        profileId: profile._id,
+      });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-<<<<<<< HEAD
 exports.getVerifiedTourGuides = async (req, res) => {
   try {
     const users = await User.find({ role: "tourguide", isVerified: true });
@@ -57,7 +71,7 @@ exports.getVerifiedTourGuides = async (req, res) => {
   } catch (err) {
     console.error("Error fetching verified guides:", err);
     res.status(500).json({ message: "Server error" });
-}
+  }
 };
 
 exports.upgradeToTourGuide = async (req, res) => {
@@ -156,12 +170,13 @@ exports.getAllTourGuides = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
 exports.getTourGuideProfile = async (req, res) => {
   try {
     const userId = req.params.id;
 
-    const profile = await TourGuideProfile.findOne({ userId }).populate("userId").populate("activities");;
+    const profile = await TourGuideProfile.findOne({ userId })
+      .populate("userId")
+      .populate("activities");
 
     if (!profile) {
       return res.status(404).json({ message: "Tour guide profile not found" });
@@ -178,8 +193,7 @@ exports.getTourGuideProfile = async (req, res) => {
       languages: profile.languages,
       calendarUrl: profile.calendarUrl,
       specialRequests: profile.specialRequests,
-      activities:profile.activities
-      
+      activities: profile.activities,
     });
   } catch (err) {
     console.error("Error fetching tour guide profile:", err);
@@ -187,12 +201,6 @@ exports.getTourGuideProfile = async (req, res) => {
   }
 };
 
-
-
-
-
-
-=======
 // Deactivate a tour guide
 exports.deactivateTourGuide = async (req, res) => {
   try {
@@ -297,4 +305,3 @@ exports.updateTourGuide = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
->>>>>>> d06bb8f9861d28357f3d2357cb581c6c15b7c331
