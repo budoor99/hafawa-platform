@@ -101,3 +101,141 @@ exports.upgradeToTourGuide = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
+// Get all tour guides
+exports.getAllTourGuides = async (req, res) => {
+  try {
+    const users = await User.find({ role: "tourguide" })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    const profiles = await TourGuideProfile.find().lean();
+
+    const merged = users.map((user) => {
+      const profile = profiles.find(
+        (p) => p.userId.toString() === user._id.toString()
+      );
+
+      return {
+        ...user,
+        city: profile?.city || "",
+        aboutMe: profile?.aboutMe || "",
+        languages: profile?.languages || [],
+        experienceYears: profile?.experienceYears || 0,
+        specialRequests: profile?.specialRequests || [],
+        calendarUrl: profile?.calendarUrl || "",
+        activities: profile?.activities || [],
+      };
+    });
+
+    res.status(200).json(merged);
+  } catch (err) {
+    console.error("Error fetching tour guides:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Deactivate a tour guide
+exports.deactivateTourGuide = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user || user.role !== "tourguide") {
+      return res.status(404).json({ message: "Tour guide not found" });
+    }
+
+    user.isVerified = false;
+    await user.save();
+
+    res.status(200).json({ message: "Tour guide deactivated", user });
+  } catch (err) {
+    console.error("Deactivate error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Activate a tour guide
+exports.activateTourGuide = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user || user.role !== "tourguide") {
+      return res.status(404).json({ message: "Tour guide not found" });
+    }
+
+    user.isVerified = true;
+    await user.save();
+
+    res.status(200).json({ message: "Tour guide activated", user });
+  } catch (err) {
+    console.error("Activate error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.updateTourGuide = async (req, res) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    const id = req.params.id;
+    const {
+      name,
+      email,
+      phone,
+      isVerified,
+      city,
+      aboutMe,
+      languages,
+      experienceYears,
+      specialRequests,
+    } = req.body;
+
+    console.log("heree", id);
+
+    const user = await User.findById(id).session(session);
+    if (!user || user.role !== "tourguide") {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(404).json({ message: "Tour guide not found" });
+    }
+
+    // Update User
+    user.name = name;
+    user.email = email;
+    user.phone = phone;
+    user.isVerified = isVerified;
+    await user.save({ session });
+
+    // Update Tour Guide Profile
+    const profile = await TourGuideProfile.findOne({ userId: id }).session(
+      session
+    );
+    if (!profile) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(404).json({ message: "Tour guide profile not found" });
+    }
+
+    profile.city = city;
+    profile.aboutMe = aboutMe;
+    profile.languages = languages;
+    profile.experienceYears = experienceYears;
+    profile.specialRequests = specialRequests;
+
+    if (req.body.activities !== undefined) {
+      profile.activities = req.body.activities;
+    }
+    await profile.save({ session });
+
+    await session.commitTransaction();
+    session.endSession();
+
+    res.status(200).json({ message: "Tour guide updated", user, profile });
+  } catch (err) {
+    await session.abortTransaction();
+    session.endSession();
+    console.error("Update failed:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};

@@ -1,3 +1,4 @@
+// ============================== Imports ==============================
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -11,11 +12,13 @@ import {
   Badge,
 } from "react-bootstrap";
 import "../styles/Dashboard.css";
+
 import UsersTab from "../components/admin/UsersTab.js";
 import TourGuidesTab from "../components/admin/TourGuidesTab.js";
 import DestinationsTab from "../components/admin/DestinationsTab.js";
 
 export default function AdminDashboard() {
+  // ============================== State ==============================
   const [stats, setStats] = useState({
     totalUsers: 0,
     totalRegularUsers: 0,
@@ -28,6 +31,14 @@ export default function AdminDashboard() {
     totalDestinations: 0,
   });
 
+  const [key, setKey] = useState("overview");
+
+  // ============================== Effects ==============================
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  // ============================== Data Fetch ==============================
   const fetchStats = () => {
     axios
       .get("/api/admin/dashboard")
@@ -35,12 +46,7 @@ export default function AdminDashboard() {
       .catch((err) => console.error("Failed to fetch admin stats", err));
   };
 
-  useEffect(() => {
-    fetchStats();
-  }, []);
-
-  const [key, setKey] = useState("overview");
-
+  // ============================== Card Config ==============================
   const cardConfig = [
     {
       key: "totalUsers",
@@ -87,8 +93,10 @@ export default function AdminDashboard() {
     },
   ];
 
+  // ============================== JSX ==============================
   return (
     <Container className="py-5">
+      {/* ================= Header ================= */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <div>
           <h2 className="fw-bold">Dashboard</h2>
@@ -99,6 +107,7 @@ export default function AdminDashboard() {
         <Button className="btn-purple">Export Report</Button>
       </div>
 
+      {/* ================= Stats Cards ================= */}
       <Row className="mb-4">
         {cardConfig.map((item, index) => (
           <Col md={6} lg={3} key={index}>
@@ -117,6 +126,7 @@ export default function AdminDashboard() {
         ))}
       </Row>
 
+      {/* ================= Tabs ================= */}
       <Tab.Container activeKey={key} onSelect={(k) => setKey(k)}>
         <Nav variant="tabs" className="custom-tabs mb-4">
           <Nav.Item>
@@ -140,11 +150,11 @@ export default function AdminDashboard() {
           </Tab.Pane>
 
           <Tab.Pane eventKey="users">
-            <UsersTab />
+            <UsersTab onStatsUpdate={fetchStats} />
           </Tab.Pane>
 
           <Tab.Pane eventKey="guides">
-            <TourGuidesTab />
+            <TourGuidesTab onStatsUpdate={fetchStats} />
           </Tab.Pane>
 
           <Tab.Pane eventKey="destinations">

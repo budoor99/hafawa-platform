@@ -1,11 +1,13 @@
+// ============================== Imports ==============================
 import React, { useEffect, useState } from "react";
 import { Card, Table, Badge, Form, Button, Dropdown } from "react-bootstrap";
 import { BsThreeDotsVertical, BsPersonCircle } from "react-icons/bs";
 import SendEmailModal from "./SendEmailModal";
-import axios from "axios";
 import EditUserModal from "./EditUserModal";
+import AddUserModal from "./AddUserModal";
+import axios from "axios";
 
-// Helper functions
+// ============================== Helpers ==============================
 const getStatusText = (isVerified) => (isVerified ? "Active" : "Inactive");
 
 const getStatusVariant = (status) => {
@@ -21,31 +23,53 @@ const getStatusVariant = (status) => {
   }
 };
 
-export default function UsersTab() {
+export default function UsersTab({ onStatsUpdate }) {
+  // ============================== State ==============================
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [selectedUserEmail, setSelectedUserEmail] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
   const usersPerPage = 5;
 
+  // ============================== Effects ==============================
   useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
+
+  // ============================== Data Fetch ==============================
+  const fetchUsers = () => {
     axios
       .get("/api/admin/users")
       .then((res) => setUsers(res.data))
       .catch((err) => console.error("Failed to fetch users", err));
-  }, []);
+  };
+
+  // ============================== Derived Data ==============================
+  const filteredUsers = users.filter(
+    (u) =>
+      u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      u.email.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
-  const totalPages = Math.ceil(users.length / usersPerPage);
+  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+  const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
 
+  // ============================== Handlers ==============================
   const handleDeactivate = async (userId) => {
     try {
       await axios.patch(`/api/admin/users/${userId}/deactivate`);
-      setUsers((prev) =>
-        prev.map((user) =>
-          user._id === userId ? { ...user, isVerified: false } : user
-        )
-      );
+      await fetchUsers();
+      onStatsUpdate?.();
     } catch (err) {
       console.error("Failed to deactivate user", err);
     }
@@ -54,18 +78,52 @@ export default function UsersTab() {
   const handleActivate = async (userId) => {
     try {
       await axios.patch(`/api/admin/users/${userId}/activate`);
-      setUsers((prev) =>
-        prev.map((user) =>
-          user._id === userId ? { ...user, isVerified: true } : user
-        )
-      );
+      await fetchUsers();
+      onStatsUpdate?.();
     } catch (err) {
       console.error("Failed to activate user", err);
     }
   };
 
-  const [showEmailModal, setShowEmailModal] = useState(false);
-  const [selectedUserEmail, setSelectedUserEmail] = useState(null);
+  const handleDeleteUser = async (userId) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this user?"
+    );
+    if (!confirmed) return;
+
+    try {
+      await axios.delete(`/api/admin/users/delete/${userId}`);
+      fetchUsers();
+      onStatsUpdate?.();
+    } catch (err) {
+      console.error("Failed to delete user:", err);
+      alert("Error deleting user. Please try again.");
+    }
+  };
+
+  const handleSaveEdit = async (updatedUser) => {
+    try {
+      if (updatedUser.upgradeTo === "host") {
+        await axios.post("/api/hosts/upgrade", updatedUser);
+      } else if (updatedUser.upgradeTo === "tourguide") {
+        await axios.post("/api/tour-guides/upgrade", updatedUser);
+      } else {
+        await axios.put(`/api/admin/users/${updatedUser._id}`, updatedUser);
+      }
+
+      await fetchUsers();
+      setShowEditModal(false);
+      onStatsUpdate?.();
+    } catch (err) {
+      console.error("Save failed", err);
+      alert("Something went wrong while saving the user.");
+    }
+  };
+
+  const openEditModal = (user) => {
+    setSelectedUser(user);
+    setShowEditModal(true);
+  };
 
   const openEmailModal = (email) => {
     setSelectedUserEmail(email);
@@ -77,22 +135,11 @@ export default function UsersTab() {
     setSelectedUserEmail(null);
   };
 
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
-
-  const openEditModal = (user) => {
-    setSelectedUser(user);
-    setShowEditModal(true);
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
   };
 
-  const handleSaveEdit = async (updatedUser) => {
-    await axios.put(`/api/admin/users/${updatedUser._id}`, updatedUser);
-    setUsers((prev) =>
-      prev.map((u) => (u._id === updatedUser._id ? updatedUser : u))
-    );
-    setShowEditModal(false);
-  };
-
+  // ============================== JSX ==============================
   return (
     <Card className="p-4 shadow-sm">
       {/*==================== Header ===================*/}
@@ -109,23 +156,22 @@ export default function UsersTab() {
               type="text"
               placeholder="Search users..."
               className="ps-5"
+              value={searchQuery}
+              onChange={handleSearchChange}
             />
             <i
               className="bi bi-search position-absolute top-50 start-0 translate-middle-y ps-3 text-muted"
               style={{ fontSize: "14px" }}
             />
           </div>
-          <Button variant="outline-light" className="border">
-            <i className="bi bi-filter text-dark" />
-          </Button>
-          <Button className="btn-purple">
+          <Button className="btn-purple" onClick={() => setShowAddModal(true)}>
             <i className="bi bi-person-plus me-2" />
             Add User
           </Button>
         </div>
       </div>
 
-      {/* ========== Table ========== */}
+      {/*==================== Table ===================*/}
       <Table hover responsive className="custom-table">
         <thead>
           <tr>
@@ -136,7 +182,7 @@ export default function UsersTab() {
           </tr>
         </thead>
         <tbody>
-          {currentUsers.map((u, idx) => (
+          {currentUsers.map((u) => (
             <tr key={u._id} className="align-middle">
               <td>
                 <div className="d-flex align-items-center">
@@ -162,7 +208,6 @@ export default function UsersTab() {
                     <BsThreeDotsVertical />
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                    <Dropdown.Item>View Profile</Dropdown.Item>
                     <Dropdown.Item onClick={() => openEditModal(u)}>
                       Edit User
                     </Dropdown.Item>
@@ -184,6 +229,12 @@ export default function UsersTab() {
                         Activate
                       </Dropdown.Item>
                     )}
+                    <Dropdown.Item
+                      className="text-danger"
+                      onClick={() => handleDeleteUser(u._id)}
+                    >
+                      Delete User
+                    </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               </td>
@@ -239,6 +290,8 @@ export default function UsersTab() {
           </Button>
         </div>
       </div>
+
+      {/*==================== Modals ===================*/}
       <SendEmailModal
         show={showEmailModal}
         onClose={closeEmailModal}
@@ -249,6 +302,12 @@ export default function UsersTab() {
         onClose={() => setShowEditModal(false)}
         user={selectedUser}
         onSave={handleSaveEdit}
+      />
+      <AddUserModal
+        show={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onUserAdded={fetchUsers}
+        onStatsUpdate={onStatsUpdate}
       />
     </Card>
   );
