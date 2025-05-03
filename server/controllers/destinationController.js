@@ -1,4 +1,5 @@
 const Destination = require("../models/Destination");
+const User = require("../models/User");
 
 // get all destinations
 

@@ -41,35 +41,33 @@ const Profile = () => {
       setProfileData(null);
       return;
     }
+
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("token");
+        if (!token) {
+          throw new Error("No authentication token found");
+        }
         const userData = await getUserProfile(token);
         setProfileData(userData);
         setFormData(userData);
         setLoading(false);
       } catch (err) {
+        console.error("Error fetching user data:", err);
         setError("Failed to load user data");
         setLoading(false);
       }
     };
 
-    if (user) {
-      fetchUserData();
-    } else {
-      setProfileData(null);
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        location: "",
-      });
-    }
+    fetchUserData();
   }, [user]);
 
   const handleSave = async () => {
     try {
       const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("No authentication token found");
+      }
       setLoading(true);
       const updatedUser = await updateUserProfile(token, formData);
       setProfileData(updatedUser);
