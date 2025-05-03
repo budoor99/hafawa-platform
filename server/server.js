@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
-
 // load environment variables
 dotenv.config();
 
@@ -25,9 +24,6 @@ const adminRoutes = require("./routes/adminRoutes");
 const destinationRoutes = require("./routes/destinationRoutes"); //Destination
 const profileRoutes = require("./routes/profileRoutes");
 const messageRoutes = require("./routes/messageRoutes");
-const destinationRoutes = require('./routes/destinationRoutes'); //Destination 
-const messageRoutes = require("./routes/messageRoutes");
-const profileRoutes = require("./routes/profileRoutes"); //user profile 
 
 app.use("/api/tour-guides", tourGuideRoutes);
 app.use("/api/auth", authRoutes);
@@ -36,9 +32,9 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/destinations", destinationRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/messages", messageRoutes);
-app.use('/api/destinations', destinationRoutes);
+app.use("/api/destinations", destinationRoutes);
 app.use("/api/messages", messageRoutes);
-app.use("/api/profile", profileRoutes); //user profile 
+app.use("/api/profile", profileRoutes); //user profile
 
 //to test only !
 app.get("/api/test", (req, res) => {
