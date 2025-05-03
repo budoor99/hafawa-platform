@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { applyAsHost, upgradeToHost } = require("../controllers/hostController");
 
 const {
   applyAsHost,
@@ -12,6 +13,7 @@ const {
 
 // Apply as a host
 router.post("/apply", applyAsHost);
+router.post("/upgrade", upgradeToHost);
 
 // Create a host profile by user ID
 router.post("/create/:userId", createHost);
@@ -22,6 +24,4 @@ router.get("/", listAllHosts);
 // Get a host profile by ID
 router.get("/view/:hostId", getHostById);
 
-
 module.exports = router;
-

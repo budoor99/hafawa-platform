@@ -1,10 +1,13 @@
 const User = require("../models/User");
 // const Destination = require("../models/Destination");
 const TourGuideProfile = require("../models/TourGuideProfile");
+const HostProfile = require("../models/HostProfile");
+const mongoose = require("mongoose");
 
 exports.getDashboardStats = async (req, res) => {
   try {
     const totalUsers = await User.countDocuments();
+    const totalRegularUsers = await User.countDocuments({ role: "user" });
 
     const activeTourGuides = await User.countDocuments({
       role: "tourguide",
@@ -23,16 +26,24 @@ exports.getDashboardStats = async (req, res) => {
       role: "host",
       isVerified: false,
     });
+    const totalHosts = await User.countDocuments({
+      role: "host",
+    });
+    const totalTourGuides = await User.countDocuments({
+      role: "tourguide",
+    });
 
     // const totalDestinations = await Destination.countDocuments();
 
     res.status(200).json({
       totalUsers,
+      totalRegularUsers,
+      totalTourGuides,
       activeTourGuides,
       inactiveTourGuides,
+      totalHosts,
       activeHosts,
       inactiveHosts,
-      //   totalDestinations,
     });
   } catch (err) {
     console.error(err);
