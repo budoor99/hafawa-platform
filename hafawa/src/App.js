@@ -36,15 +36,17 @@ function App() {
             <Route path="/apply/details" element={<RegisterDetails />} />
             <Route path="/dashboard" element={<TourGuideDashboard />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/hosts/:hostId" element={<DetailedHostProfile />} />
             <Route path="/about" element={<AboutUs />} />
-            <Route path="/hosts" element={<Hosts />} />
-            <Route path="/applyhost" element={<RegisterHost />} />
             <Route path="/admin" element={<AdminDashboard />} />
-            <Route
-              path="/applyhost/details"
-              element={<HostRegisterDetails />}
-            />
+
+
+            <Route path="/hosts" element={<Hosts />} /> {/* ✅ View all hosts */}
+            <Route path="/hosts/view/:id" element={<DetailedHostProfile />} /> {/* ✅ View single host */}
+            <Route path="/applyhost" element={<RegisterHost />} /> {/* ✅ Host registration */}
+            <Route path="/applyhost/details" element={<HostRegisterDetails />} /> {/* ✅ Host registration details */}
+            
+
+      
           </Routes>
         </main>
         <Footer />
