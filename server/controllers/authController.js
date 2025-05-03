@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const createUser = require("../utils/createUser");
+const createUser = require("../utils/createUser"); // comment
 
 exports.signup = async (req, res) => {
   try {
