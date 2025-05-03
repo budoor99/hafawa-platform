@@ -8,10 +8,10 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ["user", "host", "tourguide", "admin"],
-    default: "user",
+    default: "user"
   },
   isVerified: { type: Boolean, default: false },
-  createdAt: { type: Date, default: Date.now },
+  createdAt: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model("User", userSchema);

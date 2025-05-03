@@ -150,7 +150,7 @@ export default function Hosts() {
               >
                 WANT TO HOST GUESTS IN YOUR CITY?
               </h4>
-              <Link to="/applyhost">
+              <Link to="/apply">
                 <Button
                   variant="light"
                   style={{
