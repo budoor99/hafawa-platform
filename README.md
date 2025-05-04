@@ -110,7 +110,7 @@ React's reusable components and virtual DOM provide efficient rendering and a sm
 
 
 
-##📁 API Documentation - Example request&respone :
+## 📁 API Documentation - Example request&respone :
 
 1. Login (POST /api/auth/login)
 
