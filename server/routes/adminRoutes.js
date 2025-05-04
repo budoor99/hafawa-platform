@@ -18,6 +18,12 @@ const {
 } = require("../controllers/tourGuideController");
 
 const {
+  postDestenation,
+  deleteDestination,
+  updateDestination,
+} = require("../controllers/destinationController");
+
+const {
   getAllHosts,
   updateHost,
   activateHost,
@@ -46,6 +52,11 @@ router.get("/hosts", getAllHosts);
 router.put("/hosts/:id", updateHost);
 router.patch("/hosts/:id/activate", activateHost);
 router.patch("/hosts/:id/deactivate", deactivateHost);
+
+// Destenations
+router.post("/destinations", postDestenation);
+router.delete("/destinations/:id", deleteDestination);
+router.put("/destinations/:id", updateDestination);
 
 router.post("/send-email", sendEmailToUser);
 

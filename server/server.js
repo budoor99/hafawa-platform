@@ -32,8 +32,6 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/destinations", destinationRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/messages", messageRoutes);
-app.use("/api/destinations", destinationRoutes);
-app.use("/api/messages", messageRoutes);
 app.use("/api/profile", profileRoutes); //user profile
 
 //to test only !
