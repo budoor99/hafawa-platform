@@ -57,11 +57,26 @@ hafawa-platform/
 │   ├── components/
 │   ├── pages/
 │   ├── styles/
-|   ├── assets/
+│   ├── assets/
 │   ├── App.js
 │   ├── index.js
+├── server/
+│   ├── controllers/
+│   ├── middlewares/
+│   ├── models/
+│   ├── node_modules/
+│   ├── routes/
+│   ├── uploads/
+│   ├── utils/
+│   ├── .env
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── server.js
+│   ├── README.md
 ├── package.json
-├── README.md
+├── package-lock.json
+└── README.md
+
 ```
 
 ---
@@ -112,7 +127,7 @@ React's reusable components and virtual DOM provide efficient rendering and a sm
 
 
 
-**Request:**
+
 ```json
 ## 1. Login
 **Endpoint:** `POST /api/auth/login`
