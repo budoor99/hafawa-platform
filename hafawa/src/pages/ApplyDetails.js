@@ -1,14 +1,36 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
-import { useNavigate } from "react-router-dom"; //importing
+import { useNavigate, useLocation } from "react-router-dom";
 import bgImage from "../assets/hero.jpg";
+import axios from "axios";
 
 export default function RegisterDetails() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const basicData = location.state || {};
+
+  const [education, setEducation] = useState("");
+  const [inspiration, setInspiration] = useState("");
+  const [experienceYears, setExperienceYears] = useState("");
   const [showModal, setShowModal] = useState(false);
 
-  const handleConfirm = () => {
-    setShowModal(true);
+  const handleConfirm = async () => {
+    if (!education || !inspiration || !experienceYears) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    try {
+      await axios.post("/api/tour-guides/apply", {
+        ...basicData,
+        aboutMe: education,
+        experienceYears,
+      });
+      setShowModal(true);
+    } catch (error) {
+      console.error("Submission failed:", error);
+      alert("Something went wrong. Please try again.");
+    }
   };
 
   const handleClose = () => {
@@ -48,12 +70,15 @@ export default function RegisterDetails() {
               <Col md={6}>
                 <Form.Group className="mb-4">
                   <Form.Label className="text-muted">
-                    What is your educational background?
+                    We’d love to learn more about you; Tell us a bit about
+                    yourself.
                   </Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={6}
                     placeholder="Type here"
+                    value={education}
+                    onChange={(e) => setEducation(e.target.value)}
                   />
                 </Form.Group>
               </Col>
@@ -66,6 +91,8 @@ export default function RegisterDetails() {
                     as="textarea"
                     rows={6}
                     placeholder="Type here"
+                    value={inspiration}
+                    onChange={(e) => setInspiration(e.target.value)}
                   />
                 </Form.Group>
               </Col>
@@ -77,7 +104,13 @@ export default function RegisterDetails() {
                   <Form.Label className="text-muted">
                     How many years of experience do you have?
                   </Form.Label>
-                  <Form.Control type="text" placeholder="Type here" />
+                  <Form.Control
+                    type="number"
+                    min="0"
+                    placeholder="Type here"
+                    value={experienceYears}
+                    onChange={(e) => setExperienceYears(e.target.value)}
+                  />
                 </Form.Group>
               </Col>
             </Row>

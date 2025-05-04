@@ -3,17 +3,14 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
-
 // load environment variables
 dotenv.config();
-
 
 // create app
 const app = express();
 
 // make /uploads folder publicly accessible
-app.use('/uploads', express.static('uploads'));
-
+app.use("/uploads", express.static("uploads"));
 
 // middleware
 app.use(cors());
@@ -24,17 +21,18 @@ const authRoutes = require("./routes/authRoutes");
 const tourGuideRoutes = require("./routes/tourGuideRoutes");
 const hostRoutes = require("./routes/hostRoutes");
 const adminRoutes = require("./routes/adminRoutes");
-const destinationRoutes = require('./routes/destinationRoutes'); //Destination 
+const destinationRoutes = require("./routes/destinationRoutes"); //Destination
+const profileRoutes = require("./routes/profileRoutes");
 const messageRoutes = require("./routes/messageRoutes");
-const profileRoutes = require("./routes/profileRoutes"); //user profile 
 
 app.use("/api/tour-guides", tourGuideRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/hosts", hostRoutes);
 app.use("/api/admin", adminRoutes);
-app.use('/api/destinations', destinationRoutes);
+app.use("/api/destinations", destinationRoutes);
+app.use("/api/profile", profileRoutes);
 app.use("/api/messages", messageRoutes);
-app.use("/api/profile", profileRoutes); //user profile 
+app.use("/api/profile", profileRoutes); //user profile
 
 //to test only !
 app.get("/api/test", (req, res) => {
