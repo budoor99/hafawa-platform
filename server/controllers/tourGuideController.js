@@ -14,9 +14,9 @@ exports.applyAsTourGuide = async (req, res) => {
       aboutMe,
       city,
       experienceYears,
-      languages,
-      calendarUrl,
-      specialRequests,
+      languages = [],
+      calendarUrl = "",
+      specialRequests = [],
     } = req.body;
 
     const userId = await createUser({
@@ -28,23 +28,24 @@ exports.applyAsTourGuide = async (req, res) => {
       isVerified: false,
     });
 
+    // create profile
     const profile = new TourGuideProfile({
       userId,
       aboutMe,
+      languages,
       city,
+      calendarUrl,
+      specialRequests,
       experienceYears,
-      activities,
     });
 
     await profile.save();
 
-    res
-      .status(201)
-      .json({
-        message: "Tour guide application submitted.",
-        userId,
-        profileId: profile._id,
-      });
+    res.status(201).json({
+      message: "Tour guide application submitted.",
+      userId,
+      profileId: profile._id,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });

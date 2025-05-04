@@ -143,11 +143,13 @@ export default function AdminDashboard() {
       <Tab.Container activeKey={key} onSelect={(k) => setKey(k)}>
         <Nav variant="tabs" className="custom-tabs mb-4">
           <Nav.Item>
-            <Nav.Link eventKey="hosts">Hosts</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
             <Nav.Link eventKey="users">Users</Nav.Link>
           </Nav.Item>
+
+          <Nav.Item>
+            <Nav.Link eventKey="hosts">Hosts</Nav.Link>
+          </Nav.Item>
+
           <Nav.Item>
             <Nav.Link eventKey="guides">Tour Guides</Nav.Link>
           </Nav.Item>
@@ -157,12 +159,12 @@ export default function AdminDashboard() {
         </Nav>
 
         <Tab.Content>
-          <Tab.Pane eventKey="hosts">
-            <HostsTab onStatsUpdate={fetchStats} />
-          </Tab.Pane>
-
           <Tab.Pane eventKey="users">
             <UsersTab onStatsUpdate={fetchStats} />
+          </Tab.Pane>
+
+          <Tab.Pane eventKey="hosts">
+            <HostsTab onStatsUpdate={fetchStats} />
           </Tab.Pane>
 
           <Tab.Pane eventKey="guides">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import bgImage from "../assets/hero.jpg";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,40 @@ import { Link } from "react-router-dom";
 
 export default function RegisterTourGuide() {
   const navigate = useNavigate();
+  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [customCity, setCustomCity] = useState("");
+
+  const handleNext = () => {
+    if (
+      !fullName ||
+      !username ||
+      !email ||
+      !password ||
+      !phoneNumber ||
+      !selectedCity ||
+      (selectedCity === "Other" && !customCity)
+    ) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    const city = selectedCity === "Other" ? customCity : selectedCity;
+
+    navigate("/apply/details", {
+      state: {
+        name: fullName,
+        email,
+        phone: phoneNumber,
+        password,
+        city,
+      },
+    });
+  };
 
   return (
     <div
@@ -44,19 +78,39 @@ export default function RegisterTourGuide() {
                 </h6>
                 <Form.Group className="mb-3">
                   <Form.Label className="text-muted">Full Name</Form.Label>
-                  <Form.Control type="text" placeholder="Type here" />
+                  <Form.Control
+                    type="text"
+                    placeholder="Type here"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                  />
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label className="text-muted">Username</Form.Label>
-                  <Form.Control type="text" placeholder="Type here" />
+                  <Form.Control
+                    type="text"
+                    placeholder="Type here"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label className="text-muted">Email</Form.Label>
-                  <Form.Control type="email" placeholder="Type here" />
+                  <Form.Control
+                    type="email"
+                    placeholder="Type here"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                 </Form.Group>
                 <Form.Group>
                   <Form.Label className="text-muted">Password</Form.Label>
-                  <Form.Control type="password" placeholder="Type here" />
+                  <Form.Control
+                    type="password"
+                    placeholder="Type here"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
                 </Form.Group>
               </div>
             </Col>
@@ -76,7 +130,12 @@ export default function RegisterTourGuide() {
                 </h6>
                 <Form.Group>
                   <Form.Label className="text-muted">Phone Number</Form.Label>
-                  <Form.Control type="text" placeholder="Type here" />
+                  <Form.Control
+                    type="text"
+                    placeholder="Type here"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
                 </Form.Group>
               </div>
             </Col>
@@ -96,13 +155,41 @@ export default function RegisterTourGuide() {
                 </h6>
                 <Form.Group>
                   <Form.Label className="text-muted">Choose City</Form.Label>
-                  <Form.Select>
-                    <option>RIYADH</option>
-                    <option>EASTERN PROVINCE</option>
-                    <option>JEDDAH</option>
-                    <option>AL-ULA</option>
+                  <Form.Select
+                    value={selectedCity}
+                    onChange={(e) => setSelectedCity(e.target.value)}
+                  >
+                    <option value="">-- Select a city --</option>
+                    <option>Riyadh</option>
+                    <option>Jeddah</option>
+                    <option>Mecca</option>
+                    <option>Medina</option>
+                    <option>Dammam</option>
+                    <option>Al Khobar</option>
+                    <option>Tabuk</option>
+                    <option>Hail</option>
+                    <option>Abha</option>
+                    <option>Najran</option>
+                    <option>Al Baha</option>
+                    <option>Al Ula</option>
+                    <option>Yanbu</option>
+                    <option>Arar</option>
+                    <option>Other</option>
                   </Form.Select>
                 </Form.Group>
+                {selectedCity === "Other" && (
+                  <Form.Group className="mt-3">
+                    <Form.Label className="text-muted">
+                      Enter Your City
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Type your city here"
+                      value={customCity}
+                      onChange={(e) => setCustomCity(e.target.value)}
+                    />
+                  </Form.Group>
+                )}
               </div>
             </Col>
           </Row>
@@ -115,17 +202,16 @@ export default function RegisterTourGuide() {
             >
               Cancel
             </Button>
-            <Link to="/apply/details">
-              <Button
-                style={{
-                  backgroundColor: "#E6D9F6",
-                  border: "none",
-                  minWidth: "120px",
-                }}
-              >
-                Next
-              </Button>
-            </Link>
+            <Button
+              onClick={handleNext}
+              style={{
+                backgroundColor: "#E6D9F6",
+                border: "none",
+                minWidth: "120px",
+              }}
+            >
+              Next
+            </Button>
           </div>
         </Form>
       </Container>
