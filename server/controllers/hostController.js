@@ -8,46 +8,37 @@ const Host = require("../models/HostProfile");
 // Apply as a host (creates a user and marks them as host)
 exports.applyAsHost = async (req, res) => {
   try {
-    const { fullName, username, email, password, phoneNumber, city } = req.body;
+    const { name, email, phone, password, city, aboutMe, experienceYears } =
+      req.body;
 
-    // 1. Create the User
-    const newUser = new User({
-      fullName,
-      username,
+    // create user (role: host, unverified)
+    const userId = await createUser({
+      name,
       email,
+      phone,
       password,
-      phoneNumber,
-      city,
-      role: "host", // set role
-      status: "pending",
+      role: "host",
+      isVerified: false,
     });
 
-    const savedUser = await newUser.save();
-
-    // 2. Create the Host profile
+    // create host profile linked to user
     const hostProfile = new HostProfile({
-      user: savedUser._id,
+      user: userId,
       city,
-      aboutMe: "",
-      languages: [],
-      specialRequests: [],
-      experienceYears: 0,
-      calendarUrl: "",
-      placePhotos: [],
+      aboutMe,
+      experienceYears,
     });
 
     await hostProfile.save();
 
     res.status(201).json({
-      message: "Host application submitted successfully",
-      user: savedUser,
-      hostProfile,
+      message: "Host application submitted.",
+      userId,
+      profileId: hostProfile._id,
     });
-  } catch (error) {
-    console.error("Error saving host application:", error);
-    res
-      .status(500)
-      .json({ message: "Error applying as host", error: error.message });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
