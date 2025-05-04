@@ -109,92 +109,87 @@ React's reusable components and virtual DOM provide efficient rendering and a sm
 ---
 ## 📁 API Documentation - Example request&respone :
 
-1. Login (POST /api/auth/login)
 
-   Request :
-   {
+
+
+## 1. Login
+**Endpoint:** `POST /api/auth/login`
+
+
+{
   "email": "fahad.hosting@gmail.com",
   "password": "123"
 }
+Response:
 
-   Respone :
-   {
+{
   "message": "Login successful",
   "token": "JWT_TOKEN"
 }
+2. Host Application
+Endpoint: POST /api/hosts/applyhost
 
+Request:
 
-
-
-2. Host Application (POST /api/hosts/applyhost)
-
-   
-   Request :
-   {
+{
   "fullName": "Fahad alali",
   "username": "fahaad",
-  "email": "fahaaad@example.com",
+  "email": "fahaad@example.com",
   "password": "password123",
   "phoneNumber": "9876543210",
   "city": "Los Angeles"
 }
-   Respone :
- {
+Response:
+{
   "message": "Host application submitted successfully",
   "user": {
     "_id": "605c72ef1532071d34c4e2b2",
     "fullName": "Fahad alali",
-    "username": "fahaad,
+    "username": "fahaad",
     "email": "fahaad@example.com",
     "phoneNumber": "9876543210",
     "city": "Los Angeles",
     "role": "host",
     "status": "pending"
-     }
-
   }
+}
+3. View Tour Guide Profile
+Endpoint: GET /api/tourguide/view/:id
 
-  
+Response:
 
-  3.View Tourguide Profile (GET /api/tour-guide/view/:id):
-  
-     Respone :
-    {
-   "_id": "605c72ef1532071d34c4e2b2",
+{
+  "_id": "605c72ef1532071d34c4e2b2",
   "fullName": "Fatimah kareem",
   "username": "FatimahK",
   "email": "fatimah23445@example.com",
   "phoneNumber": "9876543210",
-  "city": "Saudi ",
-  "role": "tour guisde",
+  "city": "Saudi",
+  "role": "tour guide",
   "status": "approved",
   "profile": {
     "bio": "Experienced guiding with a passion for cultural exchange.",
     "languages": ["English", "Arabic"]
   }
 }
+4. Sign Out
+Endpoint: POST /api/auth/logout
 
-
-
-
-4. Sign Out (POST /api/auth/logout)
-   Respone : {
-  "message": "Logout successful"
-}
-
-
-
-
-
-5. Bookmark an destenation (POST /api/users/bookmark):
-
-
-   Request :
+Response:
 
 {
-  "itemId": "605c72ef1532071d34c4e2b2",
+  "message": "Logout successful"
 }
-Respone : 
+5. Bookmark a Destination
+Endpoint: POST /api/users/bookmark
+
+Request:
+
+{
+  "itemId": "605c72ef1532071d34c4e2b2"
+}
+Response:
+
 
 {
   "message": "Item bookmarked successfully",
@@ -204,14 +199,13 @@ Respone :
     "userId": "60a732ea1b0e8d34a8c4e3b4"
   }
 }
+6. Edit Tour Guide Profile
+Endpoint: PUT /api/tour-guides/update/:id
 
+Response:
 
-
-
-6. Edit Tour Guide Profile (PUT /api/tour-guides/update/:id):
-   
-   {
-  "message": " profile updated successfully",
+{
+  "message": "Profile updated successfully",
   "tourGuide": {
     "_id": "605c72ef1532071d34c4e2b2",
     "fullName": "abdullah alabdullah",
@@ -224,22 +218,19 @@ Respone :
     "status": "active"
   }
 }
+7. Send Contact Message
+Endpoint: POST /api/contact/message
 
+Request:
 
-
-
-
-
-7. Send Contact Message (POST /api/contact/message):
-   Request :
-   {
+{
   "fullName": "Abdullah ali",
   "email": "ali@example.com",
   "phoneNumber": "1234567890",
   "message": "I have a question about your services. Could you please provide more information?"
 }
+Response:
 
-Respone :
 {
   "message": "Your message has been sent successfully. We will get back to you soon."
 }
