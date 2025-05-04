@@ -139,7 +139,7 @@ export default function AdminDashboard() {
         ))}
       </Row>
 
-      {/* ================= Tabs ================= */}
+      {/* ===================== Tabs ======================== */}
       <Tab.Container activeKey={key} onSelect={(k) => setKey(k)}>
         <Nav variant="tabs" className="custom-tabs mb-4">
           <Nav.Item>
