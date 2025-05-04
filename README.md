@@ -121,27 +121,37 @@ React's reusable components and virtual DOM provide efficient rendering and a sm
 
 ---
 
-## 📁 API Documentation - Example request&respone :
+## 📁 API Documentation – Example Requests & Responses
+
+### 1. Login
+
+**Endpoint:** `POST /api/auth/login`  
+**Request:**
 
 ```json
-## 1. Login
-**Endpoint:** `POST /api/auth/login`
-
 {
   "email": "fahad.hosting@gmail.com",
   "password": "123"
 }
-Response:
+```
 
+**Response:**
+
+```json
 {
   "message": "Login successful",
   "token": "JWT_TOKEN"
 }
-2. Host Application
-Endpoint: POST /api/hosts/applyhost
+```
 
-Request:
+---
 
+### 2. Host Application
+
+**Endpoint:** `POST /api/hosts/applyhost`  
+**Request:**
+
+```json
 {
   "fullName": "Fahad alali",
   "username": "fahaad",
@@ -150,7 +160,11 @@ Request:
   "phoneNumber": "9876543210",
   "city": "Los Angeles"
 }
-Response:
+```
+
+**Response:**
+
+```json
 {
   "message": "Host application submitted successfully",
   "user": {
@@ -164,11 +178,16 @@ Response:
     "status": "pending"
   }
 }
-3. View Tour Guide Profile
-Endpoint: GET /api/tourguide/view/:id
+```
 
-Response:
+---
 
+### 3. View Tour Guide Profile
+
+**Endpoint:** `GET /api/tourguide/view/:id`  
+**Response:**
+
+```json
 {
   "_id": "605c72ef1532071d34c4e2b2",
   "fullName": "Fatimah kareem",
@@ -183,25 +202,37 @@ Response:
     "languages": ["English", "Arabic"]
   }
 }
-4. Sign Out
-Endpoint: POST /api/auth/logout
+```
 
-Response:
+---
 
+### 4. Sign Out
+
+**Endpoint:** `POST /api/auth/logout`  
+**Response:**
+
+```json
 {
   "message": "Logout successful"
 }
-5. Bookmark a Destination
-Endpoint: POST /api/users/bookmark
+```
 
-Request:
+---
 
+### 5. Bookmark a Destination
+
+**Endpoint:** `POST /api/users/bookmark`  
+**Request:**
+
+```json
 {
   "itemId": "605c72ef1532071d34c4e2b2"
 }
-Response:
+```
 
+**Response:**
 
+```json
 {
   "message": "Item bookmarked successfully",
   "bookmarkedItem": {
@@ -210,11 +241,16 @@ Response:
     "userId": "60a732ea1b0e8d34a8c4e3b4"
   }
 }
-6. Edit Tour Guide Profile
-Endpoint: PUT /api/tour-guides/update/:id
+```
 
-Response:
+---
 
+### 6. Edit Tour Guide Profile
+
+**Endpoint:** `PUT /api/tour-guides/update/:id`  
+**Response:**
+
+```json
 {
   "message": "Profile updated successfully",
   "tourGuide": {
@@ -229,28 +265,37 @@ Response:
     "status": "active"
   }
 }
-7. Send Contact Message
-Endpoint: POST /api/contact/message
+```
 
-Request:
+---
 
+### 7. Send Contact Message
+
+**Endpoint:** `POST /api/contact/message`  
+**Request:**
+
+```json
 {
   "fullName": "Abdullah ali",
   "email": "ali@example.com",
   "phoneNumber": "1234567890",
   "message": "I have a question about your services. Could you please provide more information?"
 }
-Response:
+```
 
+**Response:**
+
+```json
 {
   "message": "Your message has been sent successfully. We will get back to you soon."
 }
+```
 
 ---
 
 ## 🌐 Deployment
 
-The frontend of the project is successfully deployed and available at:
+The frontend of the project is successfully deployed and available at:  
 🔗 [https://hafawa-platform.onrender.com/](https://hafawa-platform.onrender.com/)
 
 > ⚠️ **Note:** The correct and up-to-date version of the project is on the `main` branch.
@@ -261,26 +306,9 @@ We are continuing to troubleshoot the issue and hope to have the backend running
 
 ---
 
-### 🔐 Admin Access for Testing
+## 🔐 Admin Access for Testing
 
 To try the admin functionality, you can log in with the following credentials:
 
-- **Email:** sara.ali@gmail.com
-- **Password:** 123
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```
+- **Email:** `sara.ali@gmail.com`
+- **Password:** `123`
