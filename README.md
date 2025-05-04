@@ -89,7 +89,7 @@ Hafawa is a modern, user-friendly tourism platform built to connect tourists wit
 React's reusable components and virtual DOM provide efficient rendering and a smooth user experience, while Bootstrap's responsive grid system and pre-styled components enable quick, attractive designs. This combination ensures a seamless experience for both admins and end users to manage, book, and explore guided tours and destinations effortlessly.
 
 
-
+---
 ## 🛠️ Setup & Installation for the backend 
 
  1. Clone the Repository :
@@ -109,7 +109,7 @@ React's reusable components and virtual DOM provide efficient rendering and a sm
 
 
 
-
+---
 ## 📁 API Documentation - Example request&respone :
 
 1. Login (POST /api/auth/login)
