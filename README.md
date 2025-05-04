@@ -90,7 +90,7 @@ React's reusable components and virtual DOM provide efficient rendering and a sm
 
 
 ---
-## 🛠️ Setup & Installation for the backend 
+## 🛠️ Setup & Installation for the backend :
 
  1. Clone the Repository :
     git clone https://github.com/budoor99/hafawa-platform.git
@@ -98,13 +98,10 @@ React's reusable components and virtual DOM provide efficient rendering and a sm
    cd hafawa-platform/server
 3. Install Dependencies:
    npm install
-4. Configure Environment Variables:
-   MONGO_URI=your_mongodb_connection_string
-   JWT_SECRET=your_jwt_secret
-   PORT=5050
-5. Start the Backend Server:
+
+4. Start the Backend Server:
    npm start
-6.Verify the Server is Running:
+5.Verify the Server is Running:
    http://localhost:5050/api/test
 
 
@@ -127,7 +124,11 @@ React's reusable components and virtual DOM provide efficient rendering and a sm
 }
 
 
+
+
 2. Host Application (POST /api/hosts/applyhost)
+
+   
    Request :
    {
   "fullName": "Fahad alali",
@@ -153,8 +154,11 @@ React's reusable components and virtual DOM provide efficient rendering and a sm
 
   }
 
-  3.View Tourguide Profile (GET /api/tourguide/view/:id):
-      Respone :
+  
+
+  3.View Tourguide Profile (GET /api/tour-guide/view/:id):
+  
+     Respone :
     {
    "_id": "605c72ef1532071d34c4e2b2",
   "fullName": "Fatimah kareem",
@@ -170,13 +174,21 @@ React's reusable components and virtual DOM provide efficient rendering and a sm
   }
 }
 
+
+
+
 4. Sign Out (POST /api/auth/logout)
    Respone : {
   "message": "Logout successful"
 }
 
 
-5. Bookmark an destenation (POST /api/users/bookmark)
+
+
+
+5. Bookmark an destenation (POST /api/users/bookmark):
+
+
    Request :
 
 {
@@ -194,7 +206,9 @@ Respone :
 }
 
 
-6. Edit Tour Guide Profile (PUT /api/tour-guides/update/:id)
+
+
+6. Edit Tour Guide Profile (PUT /api/tour-guides/update/:id):
    
    {
   "message": " profile updated successfully",
@@ -210,6 +224,11 @@ Respone :
     "status": "active"
   }
 }
+
+
+
+
+
 
 7. Send Contact Message (POST /api/contact/message):
    Request :
