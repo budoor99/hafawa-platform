@@ -103,12 +103,12 @@ Hafawa is a modern, user-friendly tourism platform built to connect tourists wit
 
 React's reusable components and virtual DOM provide efficient rendering and a smooth user experience, while Bootstrap's responsive grid system and pre-styled components enable quick, attractive designs. This combination ensures a seamless experience for both admins and end users to manage, book, and explore guided tours and destinations effortlessly.
 
-
 ---
+
 ## 🛠️ Setup & Installation for the backend :
 
- 1. Clone the Repository :
-    git clone https://github.com/budoor99/hafawa-platform.git
+1. Clone the Repository :
+   git clone https://github.com/budoor99/hafawa-platform.git
 2. Navigate to the server Directory :
    cd hafawa-platform/server
 3. Install Dependencies:
@@ -116,17 +116,12 @@ React's reusable components and virtual DOM provide efficient rendering and a sm
 
 4. Start the Backend Server:
    npm start
-5.Verify the Server is Running:
+   5.Verify the Server is Running:
    http://localhost:5050/api/test
 
-
-
 ---
+
 ## 📁 API Documentation - Example request&respone :
-
-
-
-
 
 ```json
 ## 1. Login
@@ -251,6 +246,27 @@ Response:
   "message": "Your message has been sent successfully. We will get back to you soon."
 }
 
+---
+
+## 🌐 Deployment
+
+The frontend of the project is successfully deployed and available at:
+🔗 [https://hafawa-platform.onrender.com/](https://hafawa-platform.onrender.com/)
+
+> ⚠️ **Note:** The correct and up-to-date version of the project is on the `main` branch.
+
+We attempted to deploy the backend multiple times, but unfortunately, it is currently not functioning correctly. As a result, some features that rely on the API may not work as expected on the live site.
+
+We are continuing to troubleshoot the issue and hope to have the backend running soon.
+
+---
+
+### 🔐 Admin Access for Testing
+
+To try the admin functionality, you can log in with the following credentials:
+
+- **Email:** sara.ali@gmail.com
+- **Password:** 123
 
 
 
@@ -260,14 +276,11 @@ Response:
 
 
 
-  
-
-
-
-   
 
 
 
 
-    
 
+
+
+```
