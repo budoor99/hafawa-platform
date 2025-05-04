@@ -114,7 +114,8 @@ React's reusable components and virtual DOM provide efficient rendering and a sm
 
 ## 1. Login
 **Endpoint:** `POST /api/auth/login`
-
+**Request:**
+```json
 
 {
   "email": "fahad.hosting@gmail.com",
