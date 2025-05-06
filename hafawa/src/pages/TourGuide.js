@@ -1,8 +1,8 @@
+
+
 import React, { useEffect, useState } from "react";
-import { Card, Form, Container, Row, Col, Button } from "react-bootstrap";
+import { Card, Form, Container, Row, Col, Button, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import maleImg from "../assets/man.jpg";
-import femaleImg from "../assets/fem.jpg";
 import heroImg from "../assets/hero.jpg";
 
 export default function TourGuides() {
@@ -40,8 +40,10 @@ export default function TourGuides() {
         }}
       >
         <Container className="text-center text-dark">
-          <h1 className="fw-bold mb-3">Connect with Expert Local Guides</h1>
-          <p className="mb-4">
+          <h1 className="fw-bold mb-3" style={{ color: "#6A1B9A" }}>
+            Connect with Expert Local Guides
+          </h1>
+          <p className="mb-4" style={{ color: "#6A1B9A" }}>
             Discover Saudi Arabia through the eyes of passionate local guides.
           </p>
           <Form className="d-flex justify-content-center">
@@ -75,7 +77,13 @@ export default function TourGuides() {
             </Form.Select>
 
             <div className="mt-5 text-start">
-              <h5 style={{ color: "#3B9C3B", fontWeight: "bold", marginBottom: "16px" }}>
+              <h5
+                style={{
+                  color: "black", // Updated color to black
+                  fontWeight: "bold",
+                  marginBottom: "16px",
+                }}
+              >
                 💡 You can be our next Tour Guide!
               </h5>
               <Link to="/apply">
@@ -85,8 +93,9 @@ export default function TourGuides() {
                     padding: "10px 30px",
                     fontWeight: "500",
                     borderRadius: "12px",
-                    backgroundColor: "#F3F1FF",
+                    backgroundColor: "#6A1B9A", // Updated color for button
                     border: "none",
+                    color: "white", // Text color for button
                   }}
                 >
                   Apply Now
@@ -105,7 +114,7 @@ export default function TourGuides() {
                     <div>
                       <div className="d-flex justify-content-center">
                         <img
-                          src={guide.gender === "female" ? femaleImg : maleImg}
+                          src="https://i.postimg.cc/4NtgTkrN/E2-FA5221-6-DA4-4297-9070-EE3397-F67-A12.png" // Static image URL for all guides
                           alt={guide.name}
                           className="rounded-circle mb-3"
                           style={{ width: "120px", height: "120px", objectFit: "cover" }}
@@ -117,7 +126,10 @@ export default function TourGuides() {
                     <Link to={`/tour-guides/${guide._id}`} style={{ textDecoration: "none" }}>
                       <Button
                         size="sm"
-                        style={{ color: "#6A1B9A", borderColor: "#6A1B9A" }}
+                        style={{
+                          color: "#6A1B9A", // Button color
+                          borderColor: "#6A1B9A",
+                        }}
                         variant="outline"
                         className="w-100"
                       >

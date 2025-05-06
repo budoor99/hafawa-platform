@@ -39,7 +39,7 @@ export default function TourGuideProfile() {
           <Row className="mb-4">
             <Col md={8}>
               <img
-                src={male}
+                src="https://i.postimg.cc/4NtgTkrN/E2-FA5221-6-DA4-4297-9070-EE3397-F67-A12.png"
                 alt={guide.name}
                 className="rounded-circle mb-3"
                 style={{ width: "120px", height: "120px", objectFit: "cover" }}
