@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Card, Form, Container, Row, Col, Button, Spinner } from "react-bootstrap";
+import {
+  Card,
+  Form,
+  Container,
+  Row,
+  Col,
+  Button,
+  Spinner,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import heroImg from "../assets/hero.jpg";
@@ -14,7 +22,7 @@ export default function Hosts() {
   useEffect(() => {
     const fetchHosts = async () => {
       try {
-        const response = await axios.get("http://localhost:5050/api/hosts");
+        const response = await axios.get("/api/hosts");
         setHosts(response.data);
         setFilteredHosts(response.data);
         setLoading(false);
@@ -51,10 +59,14 @@ export default function Hosts() {
         }}
       >
         <Container className="text-center text-dark">
-          <h1 className="fw-bold mb-3" style={{ color: "#6A1B9A" }}> {/* Updated color */}
+          <h1 className="fw-bold mb-3" style={{ color: "#6A1B9A" }}>
+            {" "}
+            {/* Updated color */}
             Meet Our Local Hosts
           </h1>
-          <p className="mb-4" style={{ color: "#6A1B9A" }}> {/* Updated color */}
+          <p className="mb-4" style={{ color: "#6A1B9A" }}>
+            {" "}
+            {/* Updated color */}
             Experience Saudi hospitality with our warm and welcoming local hosts
             who will ensure your stay is unforgettable.
           </p>
@@ -180,4 +192,3 @@ export default function Hosts() {
     </>
   );
 }
-

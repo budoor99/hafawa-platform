@@ -1,7 +1,13 @@
-
-
 import React, { useEffect, useState } from "react";
-import { Card, Form, Container, Row, Col, Button, Spinner } from "react-bootstrap";
+import {
+  Card,
+  Form,
+  Container,
+  Row,
+  Col,
+  Button,
+  Spinner,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import heroImg from "../assets/hero.jpg";
 
@@ -11,7 +17,7 @@ export default function TourGuides() {
   const [selectedCity, setSelectedCity] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5050/api/tour-guides")
+    fetch("/api/tour-guides")
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched guides:", data);
@@ -24,7 +30,9 @@ export default function TourGuides() {
 
   const filtered = guides.filter((guide) => {
     const matchesCity = selectedCity ? guide.city === selectedCity : true;
-    const matchesSearch = guide.name.toLowerCase().includes(search.toLowerCase());
+    const matchesSearch = guide.name
+      .toLowerCase()
+      .includes(search.toLowerCase());
     return matchesCity && matchesSearch;
   });
 
@@ -52,7 +60,11 @@ export default function TourGuides() {
               placeholder="Search guides by name..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              style={{ maxWidth: "500px", padding: "12px", borderRadius: "10px" }}
+              style={{
+                maxWidth: "500px",
+                padding: "12px",
+                borderRadius: "10px",
+              }}
             />
           </Form>
         </Container>
@@ -117,13 +129,22 @@ export default function TourGuides() {
                           src="https://i.postimg.cc/4NtgTkrN/E2-FA5221-6-DA4-4297-9070-EE3397-F67-A12.png" // Static image URL for all guides
                           alt={guide.name}
                           className="rounded-circle mb-3"
-                          style={{ width: "120px", height: "120px", objectFit: "cover" }}
+                          style={{
+                            width: "120px",
+                            height: "120px",
+                            objectFit: "cover",
+                          }}
                         />
                       </div>
                       <Card.Title className="mb-1">{guide.name}</Card.Title>
-                      <Card.Subtitle className="text-muted mb-3">{guide.city}</Card.Subtitle>
+                      <Card.Subtitle className="text-muted mb-3">
+                        {guide.city}
+                      </Card.Subtitle>
                     </div>
-                    <Link to={`/tour-guides/${guide._id}`} style={{ textDecoration: "none" }}>
+                    <Link
+                      to={`/tour-guides/${guide._id}`}
+                      style={{ textDecoration: "none" }}
+                    >
                       <Button
                         size="sm"
                         style={{

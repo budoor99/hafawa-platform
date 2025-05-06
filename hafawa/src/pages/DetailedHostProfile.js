@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Card, Row, Col, Spinner } from "react-bootstrap";
@@ -14,7 +12,9 @@ const HostDetails = () => {
     const fetchHost = async () => {
       try {
         // Make sure this URL matches the backend route
-        const response = await axios.get(`http://localhost:5050/api/hosts/view/${id}`);
+        const response = await axios.get(
+          `http://localhost:5050/api/hosts/view/${id}`
+        );
         setHost(response.data);
         setLoading(false);
       } catch (error) {
@@ -35,17 +35,18 @@ const HostDetails = () => {
 
   if (!host) {
     return <div className="text-center py-5">Host not found.</div>;
-
   }
 
   return (
     <div style={{ backgroundColor: "#F7F5FB", padding: "60px 0" }}>
       <Container>
-        <Card className="shadow-sm border-0 p-4" style={{ borderRadius: "16px" }}>
+        <Card
+          className="shadow-sm border-0 p-4"
+          style={{ borderRadius: "16px" }}
+        >
           <Row className="align-items-center">
             <Col md={4} className="text-center">
               <img
-
                 src="https://i.postimg.cc/4NtgTkrN/E2-FA5221-6-DA4-4297-9070-EE3397-F67-A12.png"
                 alt={host.user?.name}
                 className="rounded-circle mb-3"
@@ -53,7 +54,9 @@ const HostDetails = () => {
               />
               <h3 className="fw-bold">{host.user?.name}</h3>
               <p className="text-muted">📍 {host.city}</p>
-              <p className="fw-semibold">Languages: {host.languages.join(", ")}</p>
+              <p className="fw-semibold">
+                Languages: {host.languages.join(", ")}
+              </p>
               <p className="fw-semibold">Contact:</p>
               <p>Email: {host.user?.email}</p>
               <p>Phone: {host.user?.phone}</p>
@@ -65,8 +68,10 @@ const HostDetails = () => {
               <p>{host.specialRequests.join(", ")}</p>
               <h5>Availability</h5>
               <iframe
-                src={host.calendarUrl || "https://calendar.google.com/calendar/embed?src=en.saudi%23holiday%40group.v.calendar.google.com&ctz=Asia%2FRiyadh"}
-
+                src={
+                  host.calendarUrl ||
+                  "https://calendar.google.com/calendar/embed?src=en.saudi%23holiday%40group.v.calendar.google.com&ctz=Asia%2FRiyadh"
+                }
                 style={{
                   border: 0,
                   width: "100%",
@@ -86,4 +91,3 @@ const HostDetails = () => {
 };
 
 export default HostDetails;
-
