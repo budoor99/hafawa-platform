@@ -46,7 +46,7 @@ const HostDetails = () => {
             <Col md={4} className="text-center">
               <img
 
-                src="/default-host.jpg"
+                src="https://i.postimg.cc/4NtgTkrN/E2-FA5221-6-DA4-4297-9070-EE3397-F67-A12.png"
                 alt={host.user?.name}
                 className="rounded-circle mb-3"
                 style={{ width: "150px", height: "150px", objectFit: "cover" }}

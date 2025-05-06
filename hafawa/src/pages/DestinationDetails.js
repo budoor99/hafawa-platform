@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Card, Spinner } from "react-bootstrap";
-
+import { FaBookmark, FaSpinner } from "react-icons/fa";
+import {
+  bookmarkDestination,
+  unbookmarkDestination,
+  getBookmarkedDestinations,
+} from "../services/destinationService";
 export default function DestinationDetails() {
   const { id } = useParams();
   const [destination, setDestination] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [saved, setSaved] = useState(false);
-
+  const [bookmarked, setBookmarked] = useState(false);
+  const [bookmarkIsLoading, setBookmarkIsLoading] = useState(false);
   useEffect(() => {
     fetch(`/api/destinations/${id}`)
       .then((res) => res.json())
@@ -19,6 +24,12 @@ export default function DestinationDetails() {
         console.error("Error fetching destination:", err);
         setLoading(false);
       });
+    const token = localStorage.getItem("token");
+    if (token) {
+      getBookmarkedDestinations(token).then((data) => {
+        setBookmarked(data.includes(id));
+      });
+    }
   }, [id]);
 
   if (loading) {
@@ -33,9 +44,28 @@ export default function DestinationDetails() {
     return <p className="p-4">Destination not found.</p>;
   }
 
+  const handleBookmarkClick = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setBookmarkIsLoading(true);
+      if (bookmarked) {
+        unbookmarkDestination(id, token);
+      } else {
+        bookmarkDestination(id, token);
+      }
+      setBookmarked(!bookmarked);
+      setBookmarkIsLoading(false);
+    } else {
+      window.location.href = "/login";
+    }
+  };
+
   return (
     <div className="container py-4" style={{ maxWidth: "960px" }}>
-      <p className="text-uppercase text-muted mb-1" style={{ fontSize: "0.8rem" }}>
+      <p
+        className="text-uppercase text-muted mb-1"
+        style={{ fontSize: "0.8rem" }}
+      >
         CONTENT &gt; {destination.name?.toUpperCase()}
       </p>
 
@@ -44,24 +74,27 @@ export default function DestinationDetails() {
       </h2>
 
       {/* Save icon below title */}
-      <div
-        onClick={() => setSaved(!saved)}
-        style={{
-          cursor: "pointer",
-          fontSize: "1.2rem",
-          marginBottom: "1rem",
-          userSelect: "none",
-          width: "fit-content",
-        }}
-        title={saved ? "Unsave this page" : "Save this page"}
-      >
-        {saved ? "🔖" : "📑"}
+      <div className="d-flex justify-content-start mb-2">
+        {bookmarkIsLoading ? (
+          <FaSpinner className="fa-spin" />
+        ) : (
+          <FaBookmark
+            onClick={handleBookmarkClick}
+            style={{
+              cursor: "pointer",
+              color: bookmarked ? "#6A1B9A" : "rgba(23, 23, 23, 0.5)",
+            }}
+          />
+        )}
       </div>
 
       <div className="row align-items-start g-3">
         {/* Left: text */}
         <div className="col-md-6">
-          <p className="text-muted mb-2" style={{ fontSize: "0.9rem", lineHeight: "1.5" }}>
+          <p
+            className="text-muted mb-2"
+            style={{ fontSize: "0.9rem", lineHeight: "1.5" }}
+          >
             {destination.fullDescription}
           </p>
           <div className="mt-2">
@@ -94,7 +127,10 @@ export default function DestinationDetails() {
             }}
           />
 
-          <Card className="shadow-sm" style={{ width: "80%", maxWidth: "280px" }}>
+          <Card
+            className="shadow-sm"
+            style={{ width: "80%", maxWidth: "280px" }}
+          >
             <Card.Body className="p-2">
               <Button
                 size="sm"
@@ -118,4 +154,3 @@ export default function DestinationDetails() {
     </div>
   );
 }
-

@@ -1,8 +1,8 @@
-
 import React, { useEffect, useState } from "react";
 import { Card, Form, Container, Row, Col, Button, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import heroImg from "../assets/hero.jpg";
 
 export default function Hosts() {
   const [hosts, setHosts] = useState([]);
@@ -40,13 +40,21 @@ export default function Hosts() {
 
   const uniqueCities = [...new Set(hosts.map((host) => host.city))];
 
-
   return (
     <>
-      <div style={{ backgroundColor: "#E6D9F6", padding: "60px 0" }}>
+      <div
+        style={{
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url(${heroImg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          padding: "60px 0",
+        }}
+      >
         <Container className="text-center text-dark">
-          <h1 className="fw-bold mb-3">Meet Our Local Hosts</h1>
-          <p className="mb-4">
+          <h1 className="fw-bold mb-3" style={{ color: "#6A1B9A" }}> {/* Updated color */}
+            Meet Our Local Hosts
+          </h1>
+          <p className="mb-4" style={{ color: "#6A1B9A" }}> {/* Updated color */}
             Experience Saudi hospitality with our warm and welcoming local hosts
             who will ensure your stay is unforgettable.
           </p>
@@ -82,10 +90,35 @@ export default function Hosts() {
                 </option>
               ))}
             </Form.Select>
+            <div className="mt-5 text-start">
+              <h5
+                style={{
+                  color: "black", // Black color for the text
+                  fontWeight: "bold",
+                  marginBottom: "16px",
+                }}
+              >
+                💡 You can be our next Host!
+              </h5>
+              <Link to="/applyhost">
+                <Button
+                  variant="light"
+                  style={{
+                    padding: "10px 30px",
+                    fontWeight: "500",
+                    borderRadius: "12px",
+                    backgroundColor: "#6A1B9A", // Updated color
+                    border: "none",
+                    color: "white", // Text color for button
+                  }}
+                >
+                  Apply Now
+                </Button>
+              </Link>
+            </div>
           </Col>
 
           <Col md={9}>
-
             <h5 className="fw-bold mb-4">
               {filteredHosts.length} Hosts Available
             </h5>
@@ -102,7 +135,7 @@ export default function Hosts() {
                       <div>
                         <div className="d-flex justify-content-center">
                           <img
-                            src={host.profilePicture || "/default-host.jpg"} // Default image if not available
+                            src="https://i.postimg.cc/4NtgTkrN/E2-FA5221-6-DA4-4297-9070-EE3397-F67-A12.png" // Updated image URL
                             alt={host.user?.name}
                             className="rounded-circle mb-3"
                             style={{
@@ -143,23 +176,8 @@ export default function Hosts() {
             )}
           </Col>
         </Row>
-
-        <div className="text-center mt-5">
-          <Link to="/applyhost"> {/* Updated link to host application */}
-            <Button
-              style={{
-                backgroundColor: "#6A1B9A",
-                color: "white",
-                borderRadius: "10px",
-                padding: "10px 20px",
-              }}
-            >
-              Apply to Join as a Host
-            </Button>
-          </Link>
-        </div>
-
       </Container>
     </>
   );
 }
+
