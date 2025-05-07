@@ -45,7 +45,9 @@ export default function AdminDashboard() {
   const fetchStats = () => {
     axios
       .get("/api/admin/dashboard")
-      .then((res) => setStats(res.data))
+      .then((res) => {
+        setStats(res.data);
+      })
       .catch((err) => console.error("Failed to fetch admin stats", err));
   };
 
